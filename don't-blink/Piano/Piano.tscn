@@ -1,6 +1,7 @@
-[gd_scene load_steps=9 format=3 uid="uid://wvvv46uufmqc"]
+[gd_scene load_steps=10 format=3 uid="uid://wvvv46uufmqc"]
 
 [ext_resource type="PackedScene" uid="uid://bemr78it2ak3n" path="res://Piano/PianoKey.tscn" id="1_425cw"]
+[ext_resource type="Script" uid="uid://cuaxpmmrrkj1c" path="res://Piano/piano.gd" id="1_xryi1"]
 [ext_resource type="AudioStream" uid="uid://sg1prr2vuoxw" path="res://Piano/audio/f.wav" id="2_p0m6e"]
 [ext_resource type="AudioStream" uid="uid://crvqnwv2vo5gy" path="res://Piano/audio/g.wav" id="3_xryi1"]
 [ext_resource type="AudioStream" uid="uid://b0qm8jm4dip0y" path="res://Piano/audio/a.wav" id="4_d1g4c"]
@@ -10,6 +11,7 @@
 [ext_resource type="AudioStream" uid="uid://d1jpm4gjqphqp" path="res://Piano/audio/e.wav" id="8_gckw0"]
 
 [node name="Piano" type="Node2D"]
+script = ExtResource("1_xryi1")
 
 [node name="KeyF" parent="." instance=ExtResource("1_425cw")]
 note_name = "F"
