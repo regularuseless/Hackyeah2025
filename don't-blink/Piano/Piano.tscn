@@ -1,48 +1,90 @@
-[gd_scene load_steps=10 format=3 uid="uid://wvvv46uufmqc"]
+[gd_scene load_steps=18 format=3 uid="uid://wvvv46uufmqc"]
 
 [ext_resource type="PackedScene" uid="uid://bemr78it2ak3n" path="res://Piano/PianoKey.tscn" id="1_425cw"]
 [ext_resource type="Script" uid="uid://cuaxpmmrrkj1c" path="res://Piano/piano.gd" id="1_xryi1"]
+[ext_resource type="Texture2D" uid="uid://br7mkdr3plu6o" path="res://Piano/graphics/pianino.png" id="2_eljcq"]
 [ext_resource type="AudioStream" uid="uid://sg1prr2vuoxw" path="res://Piano/audio/f.wav" id="2_p0m6e"]
-[ext_resource type="AudioStream" uid="uid://crvqnwv2vo5gy" path="res://Piano/audio/g.wav" id="3_xryi1"]
-[ext_resource type="AudioStream" uid="uid://b0qm8jm4dip0y" path="res://Piano/audio/a.wav" id="4_d1g4c"]
-[ext_resource type="AudioStream" uid="uid://cg20g3drrf8c4" path="res://Piano/audio/h.wav" id="5_yo31c"]
-[ext_resource type="AudioStream" uid="uid://dsrra44iotmnc" path="res://Piano/audio/c.wav" id="6_tlcdk"]
-[ext_resource type="AudioStream" uid="uid://deole3lhk4wu0" path="res://Piano/audio/d.wav" id="7_1gbam"]
-[ext_resource type="AudioStream" uid="uid://d1jpm4gjqphqp" path="res://Piano/audio/e.wav" id="8_gckw0"]
+[ext_resource type="Texture2D" uid="uid://d3ybgdh3mrkys" path="res://Piano/graphics/pianino_c.png" id="3_xryi1"]
+[ext_resource type="Texture2D" uid="uid://d6n23ojo4sp3" path="res://Piano/graphics/pianino_d.png" id="4_d1g4c"]
+[ext_resource type="Texture2D" uid="uid://7kj0ho2viq31" path="res://Piano/graphics/pianino_e.png" id="5_yo31c"]
+[ext_resource type="Texture2D" uid="uid://shlfgwxttlat" path="res://Piano/graphics/pianino_f.png" id="6_tlcdk"]
+[ext_resource type="Texture2D" uid="uid://ddrtd7x3c0dgs" path="res://Piano/graphics/pianino_g.png" id="7_1gbam"]
+[ext_resource type="Texture2D" uid="uid://d3ckhymu5w30d" path="res://Piano/graphics/pianino_a.png" id="8_gckw0"]
+[ext_resource type="Texture2D" uid="uid://cepnlbc42mw3n" path="res://Piano/graphics/pianino_h.png" id="9_d6lvc"]
+[ext_resource type="AudioStream" uid="uid://dsrra44iotmnc" path="res://Piano/audio/c.wav" id="11_yo31c"]
+[ext_resource type="AudioStream" uid="uid://deole3lhk4wu0" path="res://Piano/audio/d.wav" id="12_tlcdk"]
+[ext_resource type="AudioStream" uid="uid://d1jpm4gjqphqp" path="res://Piano/audio/e.wav" id="13_1gbam"]
+[ext_resource type="AudioStream" uid="uid://crvqnwv2vo5gy" path="res://Piano/audio/g.wav" id="15_d6lvc"]
+[ext_resource type="AudioStream" uid="uid://b0qm8jm4dip0y" path="res://Piano/audio/a.wav" id="16_apf3b"]
+[ext_resource type="AudioStream" uid="uid://cg20g3drrf8c4" path="res://Piano/audio/h.wav" id="17_chc3m"]
 
 [node name="Piano" type="Node2D"]
 script = ExtResource("1_xryi1")
 
+[node name="BasePianoSprite" type="Sprite2D" parent="."]
+texture = ExtResource("2_eljcq")
+
+[node name="PressedKeySprites" type="Node2D" parent="."]
+
+[node name="Pressed_C" type="Sprite2D" parent="PressedKeySprites"]
+visible = false
+texture = ExtResource("3_xryi1")
+
+[node name="Pressed_D" type="Sprite2D" parent="PressedKeySprites"]
+visible = false
+texture = ExtResource("4_d1g4c")
+
+[node name="Pressed_E" type="Sprite2D" parent="PressedKeySprites"]
+visible = false
+texture = ExtResource("5_yo31c")
+
+[node name="Pressed_F" type="Sprite2D" parent="PressedKeySprites"]
+visible = false
+texture = ExtResource("6_tlcdk")
+
+[node name="Pressed_G" type="Sprite2D" parent="PressedKeySprites"]
+visible = false
+texture = ExtResource("7_1gbam")
+
+[node name="Pressed_A" type="Sprite2D" parent="PressedKeySprites"]
+visible = false
+texture = ExtResource("8_gckw0")
+
+[node name="Pressed_H" type="Sprite2D" parent="PressedKeySprites"]
+visible = false
+texture = ExtResource("9_d6lvc")
+
+[node name="KeyC" parent="." instance=ExtResource("1_425cw")]
+position = Vector2(-224, 8)
+note_name = "C"
+note_sound = ExtResource("11_yo31c")
+
+[node name="KeyD" parent="." instance=ExtResource("1_425cw")]
+position = Vector2(-160, 8)
+note_name = "D"
+note_sound = ExtResource("12_tlcdk")
+
+[node name="KeyE" parent="." instance=ExtResource("1_425cw")]
+position = Vector2(-96, 8)
+note_name = "E"
+note_sound = ExtResource("13_1gbam")
+
 [node name="KeyF" parent="." instance=ExtResource("1_425cw")]
+position = Vector2(-32, 8)
 note_name = "F"
 note_sound = ExtResource("2_p0m6e")
 
 [node name="KeyG" parent="." instance=ExtResource("1_425cw")]
-position = Vector2(40, 0)
+position = Vector2(32, 8)
 note_name = "G"
-note_sound = ExtResource("3_xryi1")
+note_sound = ExtResource("15_d6lvc")
 
 [node name="KeyA" parent="." instance=ExtResource("1_425cw")]
-position = Vector2(80, 0)
+position = Vector2(96, 8)
 note_name = "A"
-note_sound = ExtResource("4_d1g4c")
+note_sound = ExtResource("16_apf3b")
 
 [node name="KeyH" parent="." instance=ExtResource("1_425cw")]
-position = Vector2(120, 0)
+position = Vector2(160, 8)
 note_name = "H"
-note_sound = ExtResource("5_yo31c")
-
-[node name="KeyC" parent="." instance=ExtResource("1_425cw")]
-position = Vector2(-120, 0)
-note_name = "C"
-note_sound = ExtResource("6_tlcdk")
-
-[node name="KeyD" parent="." instance=ExtResource("1_425cw")]
-position = Vector2(-80, 0)
-note_name = "D"
-note_sound = ExtResource("7_1gbam")
-
-[node name="KeyE" parent="." instance=ExtResource("1_425cw")]
-position = Vector2(-40, 0)
-note_name = "E"
-note_sound = ExtResource("8_gckw0")
+note_sound = ExtResource("17_chc3m")
