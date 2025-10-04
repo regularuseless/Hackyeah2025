@@ -1,12 +1,15 @@
-[gd_scene load_steps=4 format=3 uid="uid://dcrrpeia302gj"]
+[gd_scene load_steps=5 format=3 uid="uid://dcrrpeia302gj"]
 
 [ext_resource type="Script" uid="uid://m1co5irqu48p" path="res://World/World.gd" id="1_mlekv"]
 [ext_resource type="PackedScene" uid="uid://lgaftspexp3k" path="res://Player/Player.tscn" id="1_y6flb"]
+[ext_resource type="PackedScene" uid="uid://iynf6i7tvysx" path="res://SettingsManager/SettingsManager.tscn" id="2_il6x7"]
 [ext_resource type="Texture2D" uid="uid://cirwwx8jkt04w" path="res://icon.svg" id="2_mlekv"]
 
 [node name="World" type="Node2D"]
 script = ExtResource("1_mlekv")
 world_boundary = Rect2(-256, -256, 512, 512)
+
+[node name="SettingsManager" parent="." instance=ExtResource("2_il6x7")]
 
 [node name="Map_Center" type="Sprite2D" parent="."]
 modulate = Color(0, 0, 0, 0.56078434)
@@ -64,3 +67,5 @@ scale = Vector2(4, 4.0000005)
 texture = ExtResource("2_mlekv")
 
 [node name="Player" parent="." instance=ExtResource("1_y6flb")]
+
+[connection signal="loop_mode_changed" from="SettingsManager" to="." method="_on_settings_manager_loop_mode_changed"]
