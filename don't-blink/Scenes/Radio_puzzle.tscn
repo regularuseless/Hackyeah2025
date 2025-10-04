@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://braya0v3mtqpa"]
+[gd_scene load_steps=7 format=3 uid="uid://cfe042b2ttoua"]
 
 [ext_resource type="Script" uid="uid://b8gik6yb0dduh" path="res://Resources/Scripts/radio.gd" id="1_nfvw5"]
 [ext_resource type="Texture2D" uid="uid://cirwwx8jkt04w" path="res://icon.svg" id="2_ly0w5"]
@@ -13,23 +13,25 @@
 script = ExtResource("1_nfvw5")
 
 [node name="KnobA" type="Node2D" parent="."]
-position = Vector2(631, 218)
+position = Vector2(324, 226)
 
 [node name="KnobSprite" type="Sprite2D" parent="KnobA"]
 texture = ExtResource("2_ly0w5")
 
 [node name="Area2D" type="Area2D" parent="KnobA"]
+scale = Vector2(6, 6)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="KnobA/Area2D"]
 shape = SubResource("CircleShape2D_prr26")
 
 [node name="KnobB" type="Node2D" parent="."]
-position = Vector2(345, 224)
+position = Vector2(655, 217)
 
 [node name="KnobSprite" type="Sprite2D" parent="KnobB"]
 texture = ExtResource("2_ly0w5")
 
 [node name="Area2D" type="Area2D" parent="KnobB"]
+scale = Vector2(6, 6)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="KnobB/Area2D"]
 shape = SubResource("CircleShape2D_jes5u")
@@ -41,3 +43,15 @@ stream = ExtResource("2_prr26")
 [node name="MessagePlayer" type="AudioStreamPlayer2D" parent="."]
 position = Vector2(157, -32)
 stream = ExtResource("3_jes5u")
+
+[node name="LabelA" type="Label" parent="."]
+offset_left = 304.0
+offset_top = 122.0
+offset_right = 344.0
+offset_bottom = 145.0
+
+[node name="LabelB" type="Label" parent="."]
+offset_left = 633.0
+offset_top = 118.0
+offset_right = 673.0
+offset_bottom = 141.0
