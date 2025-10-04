@@ -1,4 +1,4 @@
-[gd_scene load_steps=2 format=3 uid="uid://oenoojl75nus"]
+[gd_scene load_steps=2 format=3 uid="uid://cd5fkl0amf18t"]
 
 [ext_resource type="Script" uid="uid://c344l44djr32f" path="res://Resources/Scripts/NamePrompt.gd" id="1_ff4e8"]
 
@@ -41,3 +41,12 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Start"
+
+[node name="OSPrompt" type="AcceptDialog" parent="Control"]
+unique_name_in_owner = true
+title = "Quick question"
+
+[node name="OsPromptLabel" type="Label" parent="Control/OSPrompt"]
+unique_name_in_owner = true
+offset_right = 40.0
+offset_bottom = 23.0

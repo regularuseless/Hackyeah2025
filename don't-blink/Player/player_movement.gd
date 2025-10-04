@@ -11,11 +11,11 @@ extends CharacterBody2D
 @export var stamina_drain := 30.0      # ile staminy/sek. spala sprint
 @export var stamina_regen := 20.0      # ile staminy/sek. wraca, gdy NIE sprintujemy
 @export var stamina_regen_delay := 0.5 # po ilu sekundach od sprintu zaczyna się regen
+# Stamina 
 
 var stamina := 100.0
 var _time_since_sprint := 9999.0
 
-# --- Cel ruchu wyznaczany kliknięciem ---
 var _has_target := false
 var _target := Vector2.ZERO
 

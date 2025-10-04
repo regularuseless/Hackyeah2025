@@ -1,0 +1,57 @@
+[gd_scene load_steps=7 format=3 uid="uid://co5d1lj5bv0vm"]
+
+[ext_resource type="Script" path="res://Resources/Scripts/radio.gd" id="1_nfvw5"]
+[ext_resource type="Texture2D" uid="uid://cirwwx8jkt04w" path="res://icon.svg" id="2_ly0w5"]
+[ext_resource type="AudioStream" uid="uid://cpcfji1t4iggy" path="res://Resources/Assets/Sounds/noise.ogg" id="2_prr26"]
+[ext_resource type="AudioStream" uid="uid://d0dnn6cdrjkok" path="res://Resources/Assets/Sounds/message.ogg" id="3_jes5u"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_prr26"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_jes5u"]
+
+[node name="Radio" type="Node2D"]
+script = ExtResource("1_nfvw5")
+
+[node name="KnobA" type="Node2D" parent="."]
+position = Vector2(324, 226)
+
+[node name="KnobSprite" type="Sprite2D" parent="KnobA"]
+texture = ExtResource("2_ly0w5")
+
+[node name="Area2D" type="Area2D" parent="KnobA"]
+scale = Vector2(6, 6)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="KnobA/Area2D"]
+shape = SubResource("CircleShape2D_prr26")
+
+[node name="KnobB" type="Node2D" parent="."]
+position = Vector2(655, 217)
+
+[node name="KnobSprite" type="Sprite2D" parent="KnobB"]
+texture = ExtResource("2_ly0w5")
+
+[node name="Area2D" type="Area2D" parent="KnobB"]
+scale = Vector2(6, 6)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="KnobB/Area2D"]
+shape = SubResource("CircleShape2D_jes5u")
+
+[node name="NoisePlayer" type="AudioStreamPlayer2D" parent="."]
+position = Vector2(303, -36)
+stream = ExtResource("2_prr26")
+
+[node name="MessagePlayer" type="AudioStreamPlayer2D" parent="."]
+position = Vector2(157, -32)
+stream = ExtResource("3_jes5u")
+
+[node name="LabelA" type="Label" parent="."]
+offset_left = 304.0
+offset_top = 122.0
+offset_right = 344.0
+offset_bottom = 145.0
+
+[node name="LabelB" type="Label" parent="."]
+offset_left = 633.0
+offset_top = 118.0
+offset_right = 673.0
+offset_bottom = 141.0

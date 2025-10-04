@@ -14,7 +14,6 @@ config/name="Don't Blink"
 run/main_scene="uid://bxl6dw6v1oif0"
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://icon.svg"
-<<<<<<<HEADrun/main_scene="uid://by6l7mr0xyfs6"
 
 [autoload]
 
