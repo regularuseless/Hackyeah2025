@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bxjdobepkla0o"]
+
+[ext_resource type="Script" uid="uid://b366m5lbesenq" path="res://FileWriter/FileWriter.gd" id="1_ejivi"]
+
+[node name="FileWriter" type="Node"]
+script = ExtResource("1_ejivi")
