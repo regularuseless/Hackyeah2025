@@ -1,14 +1,12 @@
 [gd_scene load_steps=4 format=3 uid="uid://be8glf8e8gcfh"]
 
-[ext_resource type="Shader" uid="uid://cdvqjjd1ekyhc" path="res://Resources/Shaders/DarknessShader.gdshader" id="1_c8510"]
-[ext_resource type="Script" uid="uid://b7rsfvlnjo374" path="res://Resources/Scripts/Flashlight.gd" id="2_8tf8o"]
+[ext_resource type="Shader" uid="uid://cdvqjjd1ekyhc" path="res://Scenes/DarknessShader.gdshader" id="1_c8510"]
+[ext_resource type="Script" uid="uid://dd2bkh14qdm6h" path="res://Scenes/FlashlightShaderScript.gd" id="2_8tf8o"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_c8510"]
 shader = ExtResource("1_c8510")
-shader_parameter/hole_center = Vector2(640, 360)
-shader_parameter/hole_radius = 120.0
-shader_parameter/feather = 8.0
-shader_parameter/darkness = 0.75
+shader_parameter/circle_position = Vector2(0, 0)
+shader_parameter/radius = 100.0
 
 [node name="Test-FieldOfView" type="Node2D"]
 
@@ -25,7 +23,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="DarknessRect" type="ColorRect" parent="Camera2D/CanvasLayer/GameUi"]
+[node name="DarknessRect" type="ColorRect" parent="Camera2D/CanvasLayer/GameUi" node_paths=PackedStringArray("circle_node")]
 material = SubResource("ShaderMaterial_c8510")
 layout_mode = 1
 anchors_preset = 15
@@ -33,6 +31,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-mouse_filter = 2
 color = Color(0, 0, 0, 1)
 script = ExtResource("2_8tf8o")
+circle_node = NodePath("../Node2D")
+
+[node name="Node2D" type="Node2D" parent="Camera2D/CanvasLayer/GameUi"]
