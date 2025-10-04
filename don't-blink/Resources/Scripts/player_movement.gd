@@ -1,35 +1,60 @@
+# Player.gd
 extends CharacterBody2D
 
-@export var max_speed := 200.0
-@export var acceleration := 1200.0
-@export var friction := 1200.0
-var _last_dir := "down"
+
+@export var walk_speed := 160.0
+@export var sprint_multiplier := 1.8
+@export var stop_radius := 2.0  # odległość, przy której uznajemy, że doszliśmy
+
+# --- Stamina ---
+@export var stamina_max := 100.0
+@export var stamina_drain := 30.0      # ile staminy/sek. spala sprint
+@export var stamina_regen := 20.0      # ile staminy/sek. wraca, gdy NIE sprintujemy
+@export var stamina_regen_delay := 0.5 # po ilu sekundach od sprintu zaczyna się regen
+
+var stamina := 100.0
+var _time_since_sprint := 9999.0
+
+# --- Cel ruchu wyznaczany kliknięciem ---
+var _has_target := false
+var _target := Vector2.ZERO
+
+func _ready() -> void:
+	stamina = stamina_max
+
+func _unhandled_input(event: InputEvent) -> void:
+	# LPM: ustaw nowy cel marszu
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+		_target = get_global_mouse_position()
+		_has_target = true
 
 func _physics_process(delta: float) -> void:
-	var input_dir := Input.get_vector("move_left","move_right","move_up","move_down")
-	var target_vel := input_dir * max_speed
+	var sprinting := false
+	var speed := walk_speed
 
-	if input_dir != Vector2.ZERO:
-		velocity = velocity.move_toward(target_vel, acceleration * delta)
+	if _has_target:
+		var to_target := _target - global_position
+		if to_target.length() <= stop_radius:
+			_has_target = false
+			velocity = Vector2.ZERO
+		else:
+			var dir := to_target.normalized()
+			# Sprint tylko gdy trzymasz "sprint" i masz staminy > 0
+			if Input.is_action_pressed("sprint") and stamina > 0.1:
+				sprinting = true
+				speed *= sprint_multiplier
+				stamina = max(0.0, stamina - stamina_drain * delta)
+				_time_since_sprint = 0.0
+
+			velocity = dir * speed
+			move_and_slide()
 	else:
-		velocity = velocity.move_toward(Vector2.ZERO, friction * delta)
+		velocity = Vector2.ZERO
 
-	move_and_slide()
-	_update_anim(input_dir)
-
-func _update_anim(input_dir: Vector2) -> void:
-	if not has_node("AnimatedSprite2D"):
-		return
-	var anim := $"AnimatedSprite2D"
-	if input_dir == Vector2.ZERO:
-		anim.play("idle_" + _last_dir)
-		return
-
-	var dir := "down"
-	if abs(input_dir.x) > abs(input_dir.y):
-		dir = "right" if input_dir.x > 0 else "left"
+	# Regen staminy z opóźnieniem po sprintowaniu
+	if sprinting:
+		_time_since_sprint = 0.0
 	else:
-		dir = "down" if input_dir.y > 0 else "up"
-
-	_last_dir = dir
-	anim.play("walk_" + dir)
+		_time_since_sprint += delta
+		if _time_since_sprint >= stamina_regen_delay:
+			stamina = min(stamina_max, stamina + stamina_regen * delta)
