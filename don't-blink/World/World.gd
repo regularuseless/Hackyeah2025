@@ -53,3 +53,7 @@ func _physics_process(_delta: float):
 		player.global_position = new_pos
 		
 		player.adjust_target_after_teleport(adjustment)
+
+
+func _on_settings_manager_loop_mode_changed(is_enabled: bool) -> void:
+	is_wrapping_enabled = is_enabled
