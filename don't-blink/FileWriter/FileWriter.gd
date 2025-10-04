@@ -1,49 +1,62 @@
-# FileWriter.gd
 extends Node
 
-# This function is called when the node enters the scene tree for the first time.
-func _ready():
-	# We call our main function here to demonstrate it works as soon as you run the scene.
-	write_note_to_documents()
-
-# --- The Core Functionality ---
-
-# This function writes a predefined text file to the user's Documents folder.
-func write_note_to_documents():
-	# 1. DEFINE THE FILENAME AND CONTENT
-	const FILE_NAME = "a_note_from_the_game.txt"
-	const FILE_CONTENT = """
+const INITIAL_FILE_NAME = "a_note_from_the_game.txt"
+const INITIAL_FILE_CONTENT = """
 Hello, Player!
 
 If you are reading this, it means the file was created successfully.
+Perhaps you should try renaming this file? I'm waiting for a file named: the_magic_word.txt
+
 This note could contain a clue, a piece of lore, or a reward.
 
 Have a great day!
 """
 
-	# 2. GET THE PATH TO THE USER'S DOCUMENTS FOLDER
-	# This is the cross-platform way to find the right directory.
+# The filename we expect the user to rename the file to.
+const EXPECTED_FILE_NAME = "the_magic_word.txt"
+
+# A flag to make sure our success message only prints once.
+var _rename_puzzle_solved = false
+
+# A variable to store the full path of the file we create.
+var _original_file_path = ""
+var _expected_file_path = ""
+
+
+func _ready():
+	write_note_to_documents()
+
+
+func _process(_delta):
+	if _rename_puzzle_solved or _original_file_path == "":
+		return
+		
+	# Check for the winning condition:
+	# 1. Does the original file NOT exist anymore?
+	# 2. AND does the new, expected file NOW exist?
+	if not FileAccess.file_exists(_original_file_path) and FileAccess.file_exists(_expected_file_path):
+		
+		# If both are true, the player has solved the puzzle!
+		print("SUCCESS: File rename puzzle has been solved!")
+		
+		# Set the flag to true to stop this check from running again.
+		_rename_puzzle_solved = true
+
+func write_note_to_documents():
+	# Get the path to the user's Documents folder.
 	var documents_path = OS.get_system_dir(OS.SYSTEM_DIR_DOCUMENTS)
 	
-	# 3. CONSTRUCT THE FULL, FINAL PATH FOR THE FILE
-	# path_join correctly adds the "/" or "\" depending on the OS.
-	var full_path = documents_path.path_join(FILE_NAME)
+	# Construct the full paths for both the initial file and the expected file.
+	_original_file_path = documents_path.path_join(INITIAL_FILE_NAME)
+	_expected_file_path = documents_path.path_join(EXPECTED_FILE_NAME)
 	
-	# 4. OPEN THE FILE FOR WRITING
-	# FileAccess.WRITE will create the file if it doesn't exist,
-	# or overwrite it completely if it does.
-	var file = FileAccess.open(full_path, FileAccess.WRITE)
+	# Open the file for writing.
+	var file = FileAccess.open(_original_file_path, FileAccess.WRITE)
 	
-	# 5. CHECK FOR ERRORS AND WRITE THE FILE
 	if file:
-		# If the file was opened successfully (is not null)...
-		file.store_string(FILE_CONTENT)
-		# In Godot 4, the file is automatically closed when 'file' goes out of scope,
-		# but file.close() can be called for clarity if you prefer.
-		
-		# Print a success message to the Godot output log.
-		print("SUCCESS: File written to: " + full_path)
+		# If the file was opened successfully, write the content.
+		file.store_string(INITIAL_FILE_CONTENT)
+		print("SUCCESS: Initial puzzle file written to: " + _original_file_path)
 	else:
-		# If 'file' is null, it means Godot failed to open/create it.
-		# This is often due to a lack of permissions.
-		printerr("ERROR: Failed to write file. Check permissions for path: " + full_path)
+		# If it failed, print an error.
+		printerr("ERROR: Failed to write initial file. Check permissions for path: " + _original_file_path)

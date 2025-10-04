@@ -1,8 +1,6 @@
-# Piano.gd
 extends Node2D
 
 # The correct sequence of notes the player needs to input.
-# You can change this to any sequence you want using the note names.
 const CORRECT_SEQUENCE = ["C", "E", "G", "H"]
 
 # An array to store the notes the player has pressed so far.
