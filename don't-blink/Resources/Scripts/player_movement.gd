@@ -6,28 +6,16 @@ extends CharacterBody2D
 @export var sprint_multiplier := 1.8
 @export var stop_radius := 2.0  # odległość, przy której uznajemy, że doszliśmy
 
-<<<<<<< HEAD
 # --- Stamina ---
 @export var stamina_max := 100.0
 @export var stamina_drain := 30.0      # ile staminy/sek. spala sprint
 @export var stamina_regen := 20.0      # ile staminy/sek. wraca, gdy NIE sprintujemy
 @export var stamina_regen_delay := 0.5 # po ilu sekundach od sprintu zaczyna się regen
-=======
 # Stamina 
-@export var stamina_max := 100.0
-@export var stamina_drain := 30.0    
-@export var stamina_regen := 20.0      
-@export var stamina_regen_delay := 0.5 
->>>>>>> radio
 
 var stamina := 100.0
 var _time_since_sprint := 9999.0
 
-<<<<<<< HEAD
-# --- Cel ruchu wyznaczany kliknięciem ---
-=======
-# Ruch on
->>>>>>> radio
 var _has_target := false
 var _target := Vector2.ZERO
 
