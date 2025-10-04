@@ -58,3 +58,8 @@ func _physics_process(delta: float) -> void:
 		_time_since_sprint += delta
 		if _time_since_sprint >= stamina_regen_delay:
 			stamina = min(stamina_max, stamina + stamina_regen * delta)
+
+func adjust_target_after_teleport(adjustment: Vector2):
+	# If the player has a target, adjust it by the same amount the player was moved.
+	if _has_target:
+		_target += adjustment

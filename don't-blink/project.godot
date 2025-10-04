@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Don't Blink"
-run/main_scene="uid://co5d1lj5bv0vm"
+run/main_scene="uid://bxl6dw6v1oif0"
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://icon.svg"
 
