@@ -1,4 +1,3 @@
-# PianoKey.gd
 extends Area2D
 
 signal key_played(note_name)
@@ -9,7 +8,6 @@ signal key_played(note_name)
 @onready var sprite = $Sprite2D
 @onready var audio_player = $AudioStreamPlayer2D
 
-# --- NEW ---
 # This flag will track if the key is currently being held down.
 var _is_pressed = false
 
@@ -17,23 +15,17 @@ func _ready():
 	if note_sound:
 		audio_player.stream = note_sound
 
-func _input_event(viewport, event, shape_idx):
-	# We now need to handle both pressing and releasing the mouse button.
+func _input_event(_viewport, event, _shape_idx):
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
-		
-		# --- MODIFIED LOGIC ---
-		# If the mouse button is pressed DOWN and our key isn't already pressed.
+				# If the mouse button is pressed DOWN and our key isn't already pressed.
 		if event.is_pressed() and not _is_pressed:
 			_is_pressed = true # Mark the key as pressed.
 			play_note()
 		
-		# --- NEW LOGIC ---
 		# If the mouse button is RELEASED.
 		elif event.is_released():
 			_is_pressed = false # Reset the flag so it can be clicked again.
 
-# The play_note function remains mostly the same, it just no longer needs
-# to manage the state itself.
 func play_note():
 	audio_player.play()
 	emit_signal("key_played", note_name)
