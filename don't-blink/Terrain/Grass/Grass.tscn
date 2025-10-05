@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://cdu1v04oncalq"]
+
+[ext_resource type="Texture2D" uid="uid://bxhq0xtq8241d" path="res://Terrain/Grass/krzaki0000.png" id="1_rvjux"]
+[ext_resource type="Texture2D" uid="uid://b0p5r4ek8mox1" path="res://Terrain/Grass/krzaki0001.png" id="2_46s6c"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_55jby"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_rvjux")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_46s6c")
+}],
+"loop": true,
+"name": &"default",
+"speed": 2.0
+}]
+
+[node name="Grass" type="AnimatedSprite2D"]
+scale = Vector2(4, 4)
+sprite_frames = SubResource("SpriteFrames_55jby")
+frame_progress = 0.5066581

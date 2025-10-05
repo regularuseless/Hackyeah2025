@@ -1,17 +1,14 @@
-# Player.gd
 extends CharacterBody2D
-
 
 @export var walk_speed := 160.0
 @export var sprint_multiplier := 1.8
-@export var stop_radius := 2.0  # odległość, przy której uznajemy, że doszliśmy
+@export var stop_radius := 2.0
 
 # --- Stamina ---
 @export var stamina_max := 100.0
-@export var stamina_drain := 30.0      # ile staminy/sek. spala sprint
-@export var stamina_regen := 20.0      # ile staminy/sek. wraca, gdy NIE sprintujemy
-@export var stamina_regen_delay := 0.5 # po ilu sekundach od sprintu zaczyna się regen
-# Stamina 
+@export var stamina_drain := 30.0
+@export var stamina_regen := 20.0
+@export var stamina_regen_delay := 0.5
 
 var stamina := 100.0
 var _time_since_sprint := 9999.0
@@ -19,11 +16,12 @@ var _time_since_sprint := 9999.0
 var _has_target := false
 var _target := Vector2.ZERO
 
+@onready var animated_sprite = $AnimatedSprite2D
+
 func _ready() -> void:
 	stamina = stamina_max
 
 func _unhandled_input(event: InputEvent) -> void:
-	# LPM: ustaw nowy cel marszu
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 		_target = get_global_mouse_position()
 		_has_target = true
@@ -39,7 +37,6 @@ func _physics_process(delta: float) -> void:
 			velocity = Vector2.ZERO
 		else:
 			var dir := to_target.normalized()
-			# Sprint tylko gdy trzymasz "sprint" i masz staminy > 0
 			if Input.is_action_pressed("sprint") and stamina > 0.1:
 				sprinting = true
 				speed *= sprint_multiplier
@@ -51,7 +48,6 @@ func _physics_process(delta: float) -> void:
 	else:
 		velocity = Vector2.ZERO
 
-	# Regen staminy z opóźnieniem po sprintowaniu
 	if sprinting:
 		_time_since_sprint = 0.0
 	else:
@@ -59,7 +55,28 @@ func _physics_process(delta: float) -> void:
 		if _time_since_sprint >= stamina_regen_delay:
 			stamina = min(stamina_max, stamina + stamina_regen * delta)
 
+	_update_animation()
+
+func _update_animation():
+	if velocity.x > 0:
+		# The player is moving right, so we flip the sprite horizontally.
+		animated_sprite.flip_h = true
+	elif velocity.x < 0:
+		# The player is moving left, so we un-flip it to its default (left-facing) state.
+		animated_sprite.flip_h = false
+
+	# --- Animation State ---
+	# Check if the player is currently moving.
+	if velocity.length() > 0:
+		# If we're moving, play the "walk" animation.
+		# We check if the animation is not already "walk" to prevent restarting it every frame.
+		if animated_sprite.animation != "walk":
+			animated_sprite.play("walk")
+	else:
+		# If we're not moving (velocity is zero), play the "default" (idle) animation.
+		if animated_sprite.animation != "default":
+			animated_sprite.play("default")
+
 func adjust_target_after_teleport(adjustment: Vector2):
-	# If the player has a target, adjust it by the same amount the player was moved.
 	if _has_target:
 		_target += adjustment
