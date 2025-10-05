@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://cyotww0gfnqmv" path="res://Cursor/custom_cursor.gd" id="1_ootlb"]
 
 [node name="CustomCursor" type="CanvasLayer"]
+layer = 100
 script = ExtResource("1_ootlb")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
