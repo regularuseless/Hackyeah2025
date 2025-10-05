@@ -1,7 +1,14 @@
-[gd_scene load_steps=5 format=3 uid="uid://drv7day2ddb67"]
+[gd_scene load_steps=6 format=3 uid="uid://drv7day2ddb67"]
 
 [ext_resource type="Texture2D" uid="uid://hn2cr3dw3c4" path="res://Terrain/Tree/tree0000.png" id="1_2bxlk"]
 [ext_resource type="Texture2D" uid="uid://bp302a1lhchjx" path="res://Terrain/Tree/tree0001.png" id="2_elur8"]
+
+[sub_resource type="GDScript" id="GDScript_2bxlk"]
+script/source = "extends StaticBody2D
+@onready var anim: AnimatedSprite2D = $AnimatedSprite2D
+func _ready() -> void:
+	anim.play()
+"
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_x8h17"]
 animations = [{
@@ -22,10 +29,13 @@ radius = 40.0
 height = 144.0
 
 [node name="Tree" type="StaticBody2D"]
+scale = Vector2(0.1, 0.1)
+script = SubResource("GDScript_2bxlk")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(72, 0)
 sprite_frames = SubResource("SpriteFrames_x8h17")
+autoplay = "default"
 frame_progress = 0.90364695
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

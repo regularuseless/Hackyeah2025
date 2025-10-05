@@ -6,6 +6,9 @@
 
 [node name="Player" parent="." instance=ExtResource("1_nn3yo")]
 position = Vector2(101, 69)
-scale = Vector2(0.5, 0.5)
+scale = Vector2(0.07, 0.07)
+walk_speed = 120.0
 
 [node name="Camera2D2" type="Camera2D" parent="Player"]
+scale = Vector2(2, 2)
+zoom = Vector2(0.5, 0.5)

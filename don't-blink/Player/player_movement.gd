@@ -18,6 +18,8 @@ var _interactable_objects_in_range = []
 
 func _ready() -> void:
 	stamina = stamina_max
+	$Camera2D.make_current()
+	$Camera2D.zoom = Vector2(3.5, 3.5)  # przybliżenie (mniej niż 1.0 = bliżej)
 
 func _input(event: InputEvent) -> void:
 	# We only care about left mouse button presses.
