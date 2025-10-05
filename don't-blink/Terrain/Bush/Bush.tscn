@@ -1,0 +1,31 @@
+[gd_scene load_steps=5 format=3 uid="uid://cpg7mk2cw0m46"]
+
+[ext_resource type="Texture2D" uid="uid://dh272tfuo32ru" path="res://Terrain/Bush/krzak0000.png" id="1_p1myu"]
+[ext_resource type="Texture2D" uid="uid://ce4dc0fslw8fe" path="res://Terrain/Bush/krzak0001.png" id="2_48h7o"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ygeq7"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_p1myu")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_48h7o")
+}],
+"loop": true,
+"name": &"default",
+"speed": 2.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_8td4h"]
+radius = 80.0
+
+[node name="Bush" type="StaticBody2D"]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(8, 0)
+sprite_frames = SubResource("SpriteFrames_ygeq7")
+frame_progress = 0.26404035
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_8td4h")
