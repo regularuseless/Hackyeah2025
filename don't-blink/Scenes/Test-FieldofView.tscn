@@ -3,9 +3,9 @@
 [ext_resource type="Shader" uid="uid://cdvqjjd1ekyhc" path="res://Resources/Shaders/DarknessShader.gdshader" id="1_c8510"]
 [ext_resource type="Script" uid="uid://b7rsfvlnjo374" path="res://Resources/Scripts/Flashlight.gd" id="2_8tf8o"]
 [ext_resource type="Script" uid="uid://bse5i213w1150" path="res://Resources/Scripts/PauseMenu.gd" id="3_cx1g7"]
-[ext_resource type="PackedScene" uid="uid://bhpmgurerojb4" path="res://Scenes/Cassette.tscn" id="4_jeb6u"]
+[ext_resource type="PackedScene" path="res://Scenes/Cassette.tscn" id="4_jeb6u"]
 [ext_resource type="VideoStream" uid="uid://ohyw1krguhhj" path="res://Resources/Assets/CassetteVideos/video1.ogv" id="5_ectyy"]
-[ext_resource type="PackedScene" uid="uid://ro3abyjyyr10" path="res://Scenes/CasetteManager.tscn" id="6_ectyy"]
+[ext_resource type="PackedScene" path="res://Scenes/CasetteManager.tscn" id="6_ectyy"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jeb6u"]
 shader = ExtResource("1_c8510")
