@@ -14,6 +14,7 @@ config/name="Don't Blink"
 run/main_scene="uid://by6l7mr0xyfs6"
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://icon.svg"
+<<<<<<<HEADrun/main_scene="uid://by6l7mr0xyfs6"
 
 [autoload]
 
@@ -26,6 +27,11 @@ window/size/viewport_height=1080
 run/main_scene="uid://dk8c2553hrq7w"
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://icon.svg"
+
+[global_group]
+
+player=""
+interactable=""
 
 [input]
 
