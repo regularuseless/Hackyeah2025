@@ -24,8 +24,18 @@ var _current_title: String = ""
 var _special_locked_loop: bool = false         # true when title == "video loop"
 var _playing_fin: bool = false                 # true while playing the fin video
 
+# ---- Settings.json watcher (Documents/forget me not/settings.json) ----
+@export var monitor_settings: bool = true
+@export var settings_rel_path: String = "forget me not/settings.json"
+@export var settings_poll_interval_s: float = 0.5
+var _settings_timer: Timer
+var _settings_file_path: String = ""
+var _settings_last_loop: bool = true
+
 func _ready() -> void:
 	_fix_layout_hard()
+	player.process_mode = Node.PROCESS_MODE_ALWAYS
+
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	root.visible = false
 
@@ -35,6 +45,15 @@ func _ready() -> void:
 	loop_btn.pressed.connect(_toggle_loop)
 
 	player.finished.connect(_on_player_finished)
+
+	# prepare the file watcher timer (runs even while paused)
+	_settings_timer = Timer.new()
+	_settings_timer.one_shot = false
+	_settings_timer.wait_time = settings_poll_interval_s
+	_settings_timer.process_mode = Node.PROCESS_MODE_ALWAYS
+	_settings_timer.process_callback = Timer.TIMER_PROCESS_IDLE
+	add_child(_settings_timer)
+	_settings_timer.timeout.connect(_check_settings_file)
 
 	_loop = default_loop
 	diode.texture = red_diode if _loop else white_diode
@@ -53,15 +72,25 @@ func open(_title: String, stream: VideoStream) -> void:
 	_current_title = _title
 	_playing_fin = false
 
-	# Special case: if title is exactly "video loop" (case-insensitive)
-	_special_locked_loop = _current_title.to_lower() == "video loop"
+	# Special case: auto-loop & lock when title is "video loop"
+	print (_current_title)
+	_special_locked_loop = _current_title.to_lower() == "video_loop"
 	if _special_locked_loop:
 		_loop = true
-		loop_btn.disabled = true           # prevent user from disabling loop
+		loop_btn.disabled = true
 		diode.texture = red_diode
 	else:
 		loop_btn.disabled = false
 		diode.texture = red_diode if _loop else white_diode
+
+	# start/stop watcher
+	_prepare_settings_path()
+	_settings_timer.stop()
+	if monitor_settings and _special_locked_loop and _settings_file_path != "":
+		_settings_last_loop = true  # initial file state
+		_settings_timer.wait_time = settings_poll_interval_s
+		_settings_timer.start()
+		_check_settings_file()  # immediate check
 
 	player.stream = stream
 	player.stream_position = 0.0
@@ -87,7 +116,7 @@ func _press_pause() -> void:
 	_update_controls()
 
 func _toggle_loop() -> void:
-	# If we're in the special locked state, ignore presses (button is disabled anyway).
+	# ignore when locked by the special title
 	if _special_locked_loop:
 		return
 	_loop = not _loop
@@ -98,7 +127,6 @@ func _refresh_loop_label() -> void:
 	loop_btn.text = "Loop: " + ("On" if _loop else "Off")
 
 func _on_player_finished() -> void:
-	# If we're playing the fin video, exit the game when it ends.
 	if _playing_fin:
 		get_tree().quit()
 		return
@@ -121,32 +149,90 @@ func close() -> void:
 	player.stream = null
 	root.visible = false
 	get_tree().paused = _saved_paused
+	_settings_timer.stop()
 
 func _unhandled_input(event: InputEvent) -> void:
 	if _open and event.is_action_pressed("ui_cancel"):
 		close()
 
-# ---- Call this when your custom unlock condition is met ----
+# ---- Call this when the watcher detects loop=false (or from your own code) ----
 func unlock_loop_and_play_fin() -> void:
-	# TODO: call this from your own condition when it becomes true.
-	#  e.g., from anywhere:  %CassetteManager.unlock_loop_and_play_fin()
+	# Unlock UI & turn loop OFF
 	_special_locked_loop = false
 	loop_btn.disabled = false
 	_loop = false
 	diode.texture = white_diode
 	_refresh_loop_label()
 
+	# Stop watching the file; we’re acting on it now
+	_settings_timer.stop()
+
 	if video_fin_stream != null:
+		# Stop current video and force a clean stream swap
 		player.stop()
+		player.stream = null
+		await get_tree().process_frame  # let the node clear
+
 		player.stream = video_fin_stream
 		player.stream_position = 0.0
-		_is_playing = true
+
+		# Mark state before starting, so finished→quit works
 		_playing_fin = true
-		player.play()
+		_is_playing = true
 		_update_controls()
+
+		# Start playback *after* the stream assignment has taken effect
+		player.call_deferred("play")
 	else:
 		push_warning("CassetteManager: video_fin_stream not assigned; cannot play fin video.")
 
+# ---- Settings.json watcher helpers ----
+func _prepare_settings_path() -> void:
+	var docs: String = OS.get_system_dir(OS.SYSTEM_DIR_DOCUMENTS)
+	if docs == "":
+		# Fallbacks if needed:
+		var env_userprofile: String = OS.get_environment("USERPROFILE")
+		if env_userprofile != "":
+			docs = env_userprofile.path_join("Documents")
+	_settings_file_path = docs.path_join(settings_rel_path) if docs != "" else ""
+
+func _check_settings_file() -> void:
+	if _settings_file_path == "":
+		return
+	# Only act when still locked by the special title
+	if not _special_locked_loop:
+		_settings_timer.stop()
+		return
+
+	var fa := FileAccess.open(_settings_file_path, FileAccess.READ)
+	if fa == null:
+		return  # file missing or busy; try next tick
+	var text: String = fa.get_as_text()
+	fa.close()
+
+	if text == "":
+		return
+	var data : Variant =  JSON.parse_string(text)
+	if typeof(data) == TYPE_DICTIONARY and data.has("loop"):
+		var val = data["loop"]
+		var loop_now: bool = false
+		match typeof(val):
+			TYPE_BOOL:
+				loop_now = val
+			TYPE_INT:
+				loop_now = int(val) != 0
+			TYPE_STRING:
+				loop_now = String(val).to_lower() == "false"
+			_:
+				loop_now = false
+
+		if loop_now != _settings_last_loop:
+			_settings_last_loop = loop_now
+			if not loop_now:
+				# Detected change to false -> unlock & play fin
+				unlock_loop_and_play_fin()
+
+# ---------- Aspect / Layout helpers ----------
 func _apply_video_aspect_from_stream_or_texture() -> void:
 	var w := 0
 	var h := 0

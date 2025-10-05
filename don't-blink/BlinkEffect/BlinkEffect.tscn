@@ -1,7 +1,11 @@
-[gd_scene load_steps=4 format=3 uid="uid://ff5rlhvys7dr"]
+[gd_scene load_steps=8 format=3 uid="uid://ff5rlhvys7dr"]
 
 [ext_resource type="Script" uid="uid://bdnm7lglufoxt" path="res://BlinkEffect/BlinkEffect.gd" id="1_1k008"]
 [ext_resource type="Shader" uid="uid://d0pcxwfjewp36" path="res://BlinkEffect/blink_effect.gdshader" id="1_jf3lr"]
+[ext_resource type="Script" uid="uid://bfjy2d1jdowix" path="res://BlinkEffect/BlinkScarySound.gd" id="3_aqesm"]
+[ext_resource type="AudioStream" uid="uid://bfl45girgp8gy" path="res://Resources/Assets/Sounds/background_sound_2.mp3" id="4_yi3qt"]
+[ext_resource type="AudioStream" uid="uid://wegt307i2nlf" path="res://Resources/Assets/Sounds/muzyka_przy_halucynacji.mp3" id="5_erptk"]
+[ext_resource type="AudioStream" uid="uid://bne8vraoxm0ui" path="res://Resources/Assets/Sounds/scary_background_sound.mp3" id="6_71w5k"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_1k008"]
 shader = ExtResource("1_jf3lr")
@@ -27,5 +31,15 @@ color = Color(0, 0, 0, 1)
 
 [node name="CooldownTimer" type="Timer" parent="."]
 one_shot = true
+
+[node name="ScarySoundManager" type="Node2D" parent="."]
+script = ExtResource("3_aqesm")
+blink_path = NodePath("..")
+listener_path = NodePath("../Overlay")
+sounds = Array[AudioStream]([ExtResource("4_yi3qt"), ExtResource("5_erptk"), ExtResource("6_71w5k")])
+chance_per_closing = 0.1
+cooldown_s = 30.0
+base_volume_db = 2.0
+run_when_paused = false
 
 [connection signal="timeout" from="AutoBlinkTimer" to="." method="_on_auto_blink_timer_timeout"]
