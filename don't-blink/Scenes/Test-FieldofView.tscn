@@ -59,10 +59,7 @@ offset_right = 1920.0
 offset_bottom = 1079.0
 mouse_filter = 2
 script = ExtResource("4_dgagp")
-<<<<<<< HEAD
 face_textures = Array[Texture2D]([ExtResource("5_tvrdd"), ExtResource("6_5y1y4"), ExtResource("7_nc4w1"), ExtResource("8_i3opm")])
-=======
->>>>>>> Events
 
 [node name="Face" type="Sprite2D" parent="Camera2D/Faces/Control"]
 visible = false
