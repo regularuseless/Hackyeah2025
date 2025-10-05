@@ -1,158 +1,120 @@
 extends Node2D
 
-# --- zakres strojenia (MHz) ---
+# --- Zakres strojenia (MHz) ---
 @export var min_freq: float = 88.0
 @export var max_freq: float = 108.0
 
-# --- cele i tolerancje (MHz) ---
-@export var target_freq_a: float = 101.7
-@export var target_freq_b: float = 96.3
-@export var tolerance_a: float = 0.25
-@export var tolerance_b: float = 0.25
+# --- Cel i „miękkość” strojenia ---
+@export var target_freq: float = 101.7
+@export var tolerance: float = 0.25      # ±MHz = pełna czytelność
+@export var soft_edge: float = 1.0       # jak łagodnie spada poza tolerancją (większe = łagodniej)
 
-# --- zakres obrotu gałek (stopnie) ---
-@export var angle_min: float = -120.0
+# --- Mapa kąt <-> częstotliwość ---
+@export var angle_min: float = -120.0    # stopnie
 @export var angle_max: float = 120.0
 
-# --- krok strojenia (0 = płynnie) ---
-@export var freq_step: float = 0.0
+# --- Crossfade w dB (głośność docelowa) ---
+@export var msg_db_min: float = -40.0
+@export var msg_db_max: float = 0.0
+@export var noise_db_min: float = -80.0
+@export var noise_db_max: float = 0.0
 
-# --- (opcjonalnie) etykiety Control do wyświetlania tekstu ---
-@export var label_a_path: NodePath
-@export var label_b_path: NodePath
+# --- Wygładzenie zmian głośności (dB/s) ---
+@export var fade_speed_db: float = 60.0  # jak szybko dochodzimy do docelowej głośności
 
-# Audio 2D
+# (opcjonalnie) debugowy tekst w świecie
+@export var show_debug_text: bool = false
+@export var debug_text_size: int = 18
+@export var debug_offset: Vector2 = Vector2(0, -50)
+
+@onready var knob: Node2D = $Knob
+@onready var area: Area2D = $Knob/Area2D
 @onready var noise_player: AudioStreamPlayer2D = $NoisePlayer
 @onready var msg_player: AudioStreamPlayer2D = $MessagePlayer
 
-# Gałki + strefy wejścia
-@onready var knob_a: Node2D = $KnobA
-@onready var knob_b: Node2D = $KnobB
-@onready var area_a: Area2D = $KnobA/Area2D
-@onready var area_b: Area2D = $KnobB/Area2D
+var current_freq: float
+var _dragging: bool = false
 
-# (opcjonalne) etykiety
-@onready var label_a: Label = $"LabelA"
-@onready var label_b: Label = $"LabelB"
-
-# Bieżące wartości (dostępne dla innych skryptów)
-var current_freq_a: float
-var current_freq_b: float
-var freq_text_a: String = ""
-var freq_text_b: String = ""
-
-var _dragging_idx: int = -1  # -1 brak, 0=A, 1=B
-var _both_prev: bool = false
+# cele (docelowe dB), do których płynnie dochodzimy w _process
+var _msg_db_goal: float = 0.0
+var _noise_db_goal: float = 0.0
 
 func _ready() -> void:
-	# podepnij etykiety jeśli ustawiono ścieżki
-	if label_a_path != NodePath():
-		var n := get_node_or_null(label_a_path)
-		if n and n is Label:
-			label_a = n
-	if label_b_path != NodePath():
-		var n2 := get_node_or_null(label_b_path)
-		if n2 and n2 is Label:
-			label_b = n2
+	# start: środek zakresu
+	current_freq = (min_freq + max_freq) * 0.5
+	_set_knob_from_freq(current_freq)
 
-	# startowe częstotliwości i obrót gałek
-	current_freq_a = (min_freq + max_freq) * 0.45
-	current_freq_b = (min_freq + max_freq) * 0.55
-	_apply_knob_from_freq(0, current_freq_a)
-	_apply_knob_from_freq(1, current_freq_b)
+	# grają oba — będziemy tylko zmieniać głośność
+	if not noise_player.playing: noise_player.play()
+	if not msg_player.playing: msg_player.play()
 
-	# audio: szum gra, wiadomość zatrzymana
-	noise_player.play()
-	msg_player.stop()
+	area.input_event.connect(_on_area_input)
 
-	# wejście myszy
-	area_a.input_event.connect(func(_vp, e, _s): _on_knob_input(0, e))
-	area_b.input_event.connect(func(_vp, e, _s): _on_knob_input(1, e))
+	_update_goals()
+	_apply_volume_immediate()
 
-	_update_freq_texts()
-	_update_audio_state()
+func _process(delta: float) -> void:
+	# płynne dochodzenie do docelowych głośności (dB)
+	var step := fade_speed_db * delta
+	if absf(noise_player.volume_db - _noise_db_goal) > 0.05:
+		noise_player.volume_db = move_toward(noise_player.volume_db, _noise_db_goal, step)
+	if absf(msg_player.volume_db - _msg_db_goal) > 0.05:
+		msg_player.volume_db = move_toward(msg_player.volume_db, _msg_db_goal, step)
 
-func _on_knob_input(idx: int, event: InputEvent) -> void:
+func _on_area_input(_vp, event: InputEvent, _shape_idx: int) -> void:
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
-		if event.pressed:
-			_dragging_idx = idx
-			_drag_update(idx)
-		else:
-			_dragging_idx = -1
-	elif event is InputEventMouseMotion and _dragging_idx == idx:
-		_drag_update(idx)
+		_dragging = event.pressed
+		if _dragging:
+			_update_to_mouse()
+	elif event is InputEventMouseMotion and _dragging:
+		_update_to_mouse()
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and not event.pressed:
-		_dragging_idx = -1
-	elif event is InputEventMouseMotion and _dragging_idx != -1:
-		_drag_update(_dragging_idx)
+		_dragging = false
+	elif event is InputEventMouseMotion and _dragging:
+		_update_to_mouse()
 
-# aktualizacja podczas przeciągania:
-# - kąt gałki clamp do angle_min/max
-# - częstotliwość mapowana 1:1 do min/max i clamp (saturacja)
-func _drag_update(idx: int) -> void:
-	var knob := _get_knob(idx)
-	var mouse := get_global_mouse_position()
-	var deg := rad_to_deg((mouse - knob.global_position).angle())
-	var clamped_deg := clampf(deg, angle_min, angle_max)
-	knob.rotation_degrees = clamped_deg
+func _update_to_mouse() -> void:
+	var ang := (get_global_mouse_position() - knob.global_position).angle()
+	var deg := rad_to_deg(ang)
+	var clamped := clampf(deg, angle_min, angle_max)
+	knob.rotation_degrees = clamped
 
-	var t := inverse_lerp(angle_min, angle_max, clamped_deg)      # 0..1
-	var f := lerpf(min_freq, max_freq, clampf(t, 0.0, 1.0))       # MHz
-	if freq_step > 0.0:
-		f = round(f / freq_step) * freq_step
-	f = clampf(f, min_freq, max_freq)                             # SATURACJA
+	var t := inverse_lerp(angle_min, angle_max, clamped)            # 0..1
+	current_freq = lerpf(min_freq, max_freq, clampf(t, 0.0, 1.0))   # MHz
 
-	if idx == 0:
-		current_freq_a = f
-	else:
-		current_freq_b = f
+	_update_goals()
+	if show_debug_text:
+		queue_redraw()
 
-	_update_freq_texts()
-	_update_audio_state()
-
-# mapowanie: częstotliwość -> obrót (do ustawień startowych lub z zewnątrz)
-func _apply_knob_from_freq(idx: int, f: float) -> void:
-	var knob := _get_knob(idx)
-	var cf := clampf(f, min_freq, max_freq)
-	var t := inverse_lerp(min_freq, max_freq, cf)
-	var deg := lerpf(angle_min, angle_max, clampf(t, 0.0, 1.0))
+func _set_knob_from_freq(f: float) -> void:
+	var t := inverse_lerp(min_freq, max_freq, clampf(f, min_freq, max_freq))
+	var deg := lerpf(angle_min, angle_max, t)
 	knob.rotation_degrees = deg
 
-func _get_knob(idx: int) -> Node2D:
-	if idx == 0:
-		return knob_a
-	return knob_b
+func _tuned_ratio() -> float:
+	# 1.0 w tolerancji, potem liniowo maleje o 1/soft_edge na każdy MHz poza
+	var d := absf(current_freq - target_freq)
+	if d <= tolerance:
+		return 1.0
+	var extra := d - tolerance
+	var falloff := 1.0 / maxf(0.001, soft_edge)
+	return clampf(1.0 - extra * falloff, 0.0, 1.0)
 
-func _is_in_band(f: float, target: float, tol: float) -> bool:
-	return absf(f - target) <= tol
+func _update_goals() -> void:
+	var r := _tuned_ratio()   # 0..1
+	_msg_db_goal = lerpf(msg_db_min, msg_db_max, r)
+	_noise_db_goal = lerpf(noise_db_max, noise_db_min, r)
 
-func _update_audio_state() -> void:
-	var ok_a := _is_in_band(current_freq_a, target_freq_a, tolerance_a)
-	var ok_b := _is_in_band(current_freq_b, target_freq_b, tolerance_b)
-	var both := ok_a and ok_b
+func _apply_volume_immediate() -> void:
+	noise_player.volume_db = _noise_db_goal
+	msg_player.volume_db = _msg_db_goal
 
-	if both and not _both_prev:
-		if noise_player.playing:
-			noise_player.stop()
-		msg_player.stop()
-		msg_player.play(0.0)
-	elif not both and _both_prev:
-		if msg_player.playing:
-			msg_player.stop()
-		noise_player.play()
-
-	_both_prev = both
-
-# --- tekst do etykiet / na potrzeby innych skryptów ---
-func _update_freq_texts() -> void:
-	freq_text_a = _fmt_freq(current_freq_a)
-	freq_text_b = _fmt_freq(current_freq_b)
-	if label_a:
-		label_a.text = freq_text_a
-	if label_b:
-		label_b.text = freq_text_b
-
-func _fmt_freq(f: float) -> String:
-	return String.num(f, 2) + " MHz"
+# --- debug: wyświetlanie częstotliwości (opcjonalne) ---
+func _draw() -> void:
+	if not show_debug_text:
+		return
+	var font: Font = ThemeDB.fallback_font
+	var txt := String.num(current_freq, 2) + " MHz"
+	draw_string(font, knob.position + debug_offset, txt, HORIZONTAL_ALIGNMENT_LEFT, -1.0, debug_text_size)
