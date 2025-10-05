@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://c8jtwpfkbh5o3"]
+
+[ext_resource type="Texture2D" uid="uid://bcsnpc2gkvfin" path="res://Terrain/Animals/deer.png" id="1_amsew"]
+
+[node name="Deer" type="Sprite2D"]
+scale = Vector2(0.04, 0.04)
+texture = ExtResource("1_amsew")
