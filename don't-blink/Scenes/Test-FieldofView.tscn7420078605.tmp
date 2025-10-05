@@ -1,0 +1,79 @@
+[gd_scene load_steps=6 format=3 uid="uid://be8glf8e8gcfh"]
+
+[ext_resource type="Shader" uid="uid://cdvqjjd1ekyhc" path="res://Resources/Shaders/DarknessShader.gdshader" id="1_c8510"]
+[ext_resource type="Script" uid="uid://b7rsfvlnjo374" path="res://Resources/Scripts/Flashlight.gd" id="2_8tf8o"]
+[ext_resource type="Script" uid="uid://bse5i213w1150" path="res://Resources/Scripts/PauseMenu.gd" id="3_cx1g7"]
+[ext_resource type="PackedScene" uid="uid://bhpmgurerojb4" path="res://Scenes/Cassette.tscn" id="4_jeb6u"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_c8510"]
+shader = ExtResource("1_c8510")
+shader_parameter/hole_center = Vector2(640, 360)
+shader_parameter/hole_radius = 120.0
+shader_parameter/feather = 8.0
+shader_parameter/darkness = 0.75
+
+[node name="Test-FieldOfView" type="Node2D"]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(576, 324)
+
+[node name="CameraCanvas" type="CanvasLayer" parent="Camera2D"]
+
+[node name="GameUi" type="Control" parent="Camera2D/CameraCanvas"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="DarknessRect" type="ColorRect" parent="Camera2D/CameraCanvas/GameUi"]
+material = SubResource("ShaderMaterial_c8510")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+script = ExtResource("2_8tf8o")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Control" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_stretch_ratio = 1.1
+script = ExtResource("3_cx1g7")
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/Control"]
+layout_mode = 0
+offset_right = 1920.0
+offset_bottom = 1080.0
+color = Color(0, 0, 0, 0.24705882)
+
+[node name="CenterContainer" type="CenterContainer" parent="CanvasLayer/Control"]
+layout_mode = 0
+offset_right = 1920.0
+offset_bottom = 1080.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Control/CenterContainer"]
+layout_mode = 2
+
+[node name="ResumeButton" type="Button" parent="CanvasLayer/Control/CenterContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Resume"
+
+[node name="QuitButton" type="Button" parent="CanvasLayer/Control/CenterContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Quit"
+
+[node name="Cassette" parent="." instance=ExtResource("4_jeb6u")]
+position = Vector2(1206, 639)

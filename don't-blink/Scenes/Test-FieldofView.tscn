@@ -1,17 +1,24 @@
-[gd_scene load_steps=5 format=3 uid="uid://be8glf8e8gcfh"]
+[gd_scene load_steps=8 format=3 uid="uid://be8glf8e8gcfh"]
 
 [ext_resource type="Shader" uid="uid://cdvqjjd1ekyhc" path="res://Resources/Shaders/DarknessShader.gdshader" id="1_c8510"]
 [ext_resource type="Script" uid="uid://b7rsfvlnjo374" path="res://Resources/Scripts/Flashlight.gd" id="2_8tf8o"]
 [ext_resource type="Script" uid="uid://bse5i213w1150" path="res://Resources/Scripts/PauseMenu.gd" id="3_cx1g7"]
+[ext_resource type="PackedScene" uid="uid://bhpmgurerojb4" path="res://Scenes/Cassette.tscn" id="4_jeb6u"]
+[ext_resource type="VideoStream" uid="uid://ohyw1krguhhj" path="res://Resources/Assets/CassetteVideos/video1.ogv" id="5_ectyy"]
+[ext_resource type="PackedScene" uid="uid://ro3abyjyyr10" path="res://Scenes/CasetteManager.tscn" id="6_ectyy"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_c8510"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jeb6u"]
 shader = ExtResource("1_c8510")
-shader_parameter/hole_center = Vector2(640, 360)
+shader_parameter/hole_center = Vector2(1920, 1080)
 shader_parameter/hole_radius = 120.0
 shader_parameter/feather = 8.0
-shader_parameter/darkness = 0.75
+shader_parameter/darkness = 1.0
 
 [node name="Test-FieldOfView" type="Node2D"]
+
+[node name="CassetteManager" parent="." instance=ExtResource("6_ectyy")]
+unique_name_in_owner = true
+z_index = 56
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(576, 324)
@@ -25,9 +32,10 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 
 [node name="DarknessRect" type="ColorRect" parent="Camera2D/CameraCanvas/GameUi"]
-material = SubResource("ShaderMaterial_c8510")
+material = SubResource("ShaderMaterial_jeb6u")
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -54,7 +62,7 @@ script = ExtResource("3_cx1g7")
 layout_mode = 0
 offset_right = 1920.0
 offset_bottom = 1080.0
-color = Color(0, 0, 0, 0.24705882)
+color = Color(0, 0, 0, 0)
 
 [node name="CenterContainer" type="CenterContainer" parent="CanvasLayer/Control"]
 layout_mode = 0
@@ -73,3 +81,13 @@ text = "Resume"
 unique_name_in_owner = true
 layout_mode = 2
 text = "Quit"
+
+[node name="Cassette" parent="." instance=ExtResource("4_jeb6u")]
+position = Vector2(1318, 767)
+
+[node name="CassetteObject" parent="Cassette" index="0" node_paths=PackedStringArray("manager")]
+video = ExtResource("5_ectyy")
+manager = NodePath("../../CassetteManager/CassetteManager")
+
+[editable path="CassetteManager"]
+[editable path="Cassette"]
