@@ -44,8 +44,8 @@ animations = [{
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_itu5c"]
-radius = 32.0
-height = 240.0
+radius = 34.0
+height = 412.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_s1rgi"]
 radius = 472.06778
@@ -61,7 +61,7 @@ sprite_frames = SubResource("SpriteFrames_3mea3")
 frame_progress = 0.2810407
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, 56)
+position = Vector2(0, -20)
 shape = SubResource("CapsuleShape2D_itu5c")
 
 [node name="InteractionArea" type="Area2D" parent="."]
