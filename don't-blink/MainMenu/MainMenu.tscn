@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://j6mu77np44er"]
+[gd_scene load_steps=3 format=3 uid="uid://j6mu77np44er"]
 
-[ext_resource type="Script" uid="uid://8jsvhv1pvckf" path="res://Resources/Scripts/MainMenu.gd" id="1_tt5f1"]
+[ext_resource type="Script" uid="uid://8jsvhv1pvckf" path="res://Resources/Scripts/MainMenu.gd" id="1_otibh"]
+[ext_resource type="AudioStream" uid="uid://b2exfb22ey122" path="res://MainMenu/menu.mp3" id="2_cruaa"]
 
 [node name="MainMenu" type="Node2D"]
 
@@ -9,7 +10,7 @@ layout_mode = 3
 anchors_preset = 0
 offset_right = 1920.0
 offset_bottom = 1080.0
-script = ExtResource("1_tt5f1")
+script = ExtResource("1_otibh")
 
 [node name="CenterContainer" type="CenterContainer" parent="Control"]
 layout_mode = 0
@@ -36,3 +37,7 @@ layout_mode = 2
 text = "Quit"
 
 [node name="AcceptDialog" type="AcceptDialog" parent="Control"]
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("2_cruaa")
+autoplay = true

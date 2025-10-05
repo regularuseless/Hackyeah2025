@@ -1,0 +1,45 @@
+[gd_scene load_steps=7 format=3 uid="uid://jo0k1cgrwfdu"]
+
+[ext_resource type="Script" uid="uid://bxy3ujk8jy2kb" path="res://Clock/clock_standing.gd" id="1_pngys"]
+[ext_resource type="Texture2D" uid="uid://cb22yvksh1uuf" path="res://Clock/clock standing01.png" id="1_q0ddt"]
+[ext_resource type="Texture2D" uid="uid://du0ux8a4gt2ok" path="res://Clock/clock standing02.png" id="2_2nbp1"]
+[ext_resource type="FontFile" uid="uid://d04bknqiit4ep" path="res://DS-DIGIT.TTF" id="4_me8nn"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_pngys"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_q0ddt")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_2nbp1")
+}],
+"loop": true,
+"name": &"default",
+"speed": 2.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_q0ddt"]
+size = Vector2(368, 1072)
+
+[node name="ClockStanding" type="Area2D"]
+script = ExtResource("1_pngys")
+metadata/_edit_group_ = true
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(16, 0)
+sprite_frames = SubResource("SpriteFrames_pngys")
+frame_progress = 0.7397146
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 88)
+shape = SubResource("RectangleShape2D_q0ddt")
+
+[node name="Label" type="Label" parent="."]
+offset_left = -104.0
+offset_top = -248.0
+offset_right = 113.0
+offset_bottom = -151.0
+theme_override_fonts/font = ExtResource("4_me8nn")
+theme_override_font_sizes/font_size = 96
+text = "00:00"

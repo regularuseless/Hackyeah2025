@@ -6,8 +6,9 @@ var _jumpscare_triggered = false
 var player = null
 
 func _ready():
+	# Find the player node once when the scene loads.
 	player = get_tree().get_first_node_in_group("player")
-
+	
 func _input_event(_viewport, event, _shape_idx):
 	# Do nothing if the jumpscare already happened or if the player isn't found.
 	if _jumpscare_triggered or player == null:
