@@ -51,6 +51,7 @@ height = 412.0
 radius = 472.06778
 
 [node name="Player" type="CharacterBody2D" groups=["player"]]
+scale = Vector2(0.1, 0.1)
 script = ExtResource("1_q3lat")
 walk_speed = 180.0
 

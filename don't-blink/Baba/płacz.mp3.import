@@ -12,7 +12,7 @@ dest_files=["res://.godot/imported/płacz.mp3-42b5fe8cbc760b32bb66a4f6a097b199.m
 
 [params]
 
-loop=false
+loop=true
 loop_offset=0
 bpm=0
 beat_count=0
