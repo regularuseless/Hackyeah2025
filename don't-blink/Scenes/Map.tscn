@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://bv55fo2qkmiua"]
+[gd_scene load_steps=25 format=3 uid="uid://bv55fo2qkmiua"]
 
 [ext_resource type="PackedScene" uid="uid://eqbb7p1uidh2" path="res://Scenes/TestMovement.tscn" id="1_s486e"]
 [ext_resource type="Texture2D" uid="uid://bv2581b6at0o5" path="res://Resources/Assets/trawa.png" id="2_7yn8b"]
@@ -6,12 +6,18 @@
 [ext_resource type="PackedScene" uid="uid://cdu1v04oncalq" path="res://Terrain/Grass/Grass.tscn" id="3_00287"]
 [ext_resource type="PackedScene" uid="uid://drv7day2ddb67" path="res://Terrain/Tree/Tree.tscn" id="4_5t7yc"]
 [ext_resource type="PackedScene" uid="uid://c2twdjxt2xh01" path="res://RadioG/RadioG.tscn" id="5_00287"]
-[ext_resource type="Script" uid="uid://devgh5s5w37fi" path="res://RadioG/radio_g.gd" id="5_b7adt"]
+[ext_resource type="Script" path="res://RadioG/radio_g.gd" id="5_b7adt"]
 [ext_resource type="Texture2D" uid="uid://bnfx1jo7epurg" path="res://Resources/Assets/RadioZiemia1.png" id="6_46meq"]
 [ext_resource type="PackedScene" uid="uid://c8jtwpfkbh5o3" path="res://Terrain/Animals/Deer.tscn" id="6_ngcqm"]
 [ext_resource type="Texture2D" uid="uid://bcov7rtf44y0p" path="res://Resources/Assets/RadioZiemia2.png" id="7_6bwvt"]
 [ext_resource type="PackedScene" uid="uid://d3cjf6ed36sl7" path="res://Terrain/Animals/BirdF.tscn" id="7_ngcqm"]
 [ext_resource type="PackedScene" uid="uid://3ct4t7fp3o7g" path="res://Baba/CryingGirl.tscn" id="8_ws1hi"]
+[ext_resource type="PackedScene" uid="uid://ro3abyjyyr10" path="res://Scenes/CasetteManager.tscn" id="10_bjq7f"]
+[ext_resource type="PackedScene" uid="uid://bhpmgurerojb4" path="res://Scenes/Cassette.tscn" id="11_b7adt"]
+[ext_resource type="VideoStream" uid="uid://ohyw1krguhhj" path="res://Resources/Assets/CassetteVideos/video1.ogv" id="15_ejakq"]
+[ext_resource type="Texture2D" uid="uid://bhb1t4e5uy4tb" path="res://Resources/Kaseta1.png" id="16_dms03"]
+[ext_resource type="VideoStream" uid="uid://broh0nqbn2n8d" path="res://Resources/Assets/CassetteVideos/video2.ogv" id="17_6kno7"]
+[ext_resource type="VideoStream" uid="uid://b47e6a5030prc" path="res://Resources/Assets/CassetteVideos/video_loop.ogv" id="18_ejakq"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_2g0cm"]
 animations = [{
@@ -148,3 +154,60 @@ position = Vector2(1507.4509, -841.56854)
 scale = Vector2(0.7859478, 0.7835876)
 texture = ExtResource("2_7yn8b")
 centered = false
+
+[node name="CassetteManager" parent="." instance=ExtResource("10_bjq7f")]
+
+[node name="Cassette" parent="." instance=ExtResource("11_b7adt")]
+position = Vector2(1100.3922, 174.90198)
+
+[node name="CassetteObject" parent="Cassette" index="0" node_paths=PackedStringArray("manager")]
+video = ExtResource("15_ejakq")
+manager = NodePath("../../CassetteManager/CassetteManager")
+
+[node name="Sprite2D" parent="Cassette/CassetteObject" index="0"]
+position = Vector2(-8.662399, 5.363102)
+scale = Vector2(0.13108301, 0.1428897)
+texture = ExtResource("16_dms03")
+
+[node name="CollisionShape2D" parent="Cassette/CassetteObject" index="1"]
+position = Vector2(-10.980393, 5.490196)
+
+[node name="Cassette2" parent="." instance=ExtResource("11_b7adt")]
+position = Vector2(574.1177, 478.4314)
+
+[node name="CassetteObject" parent="Cassette2" index="0" node_paths=PackedStringArray("manager")]
+position = Vector2(-6.2745104, 24.313728)
+video = ExtResource("17_6kno7")
+manager = NodePath("../../CassetteManager/CassetteManager")
+
+[node name="Sprite2D" parent="Cassette2/CassetteObject" index="0"]
+position = Vector2(-2.1647034, -1.6588249)
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("16_dms03")
+
+[node name="CollisionShape2D" parent="Cassette2/CassetteObject" index="1"]
+position = Vector2(-2.164711, -0.8745117)
+scale = Vector2(0.5, 0.5)
+
+[node name="Cassette3" parent="." instance=ExtResource("11_b7adt")]
+position = Vector2(498.82355, 465.8824)
+
+[node name="CassetteObject" parent="Cassette3" index="0" node_paths=PackedStringArray("manager")]
+position = Vector2(-157.64708, 9.411766)
+video = ExtResource("18_ejakq")
+manager = NodePath("../../CassetteManager/CassetteManager")
+
+[node name="Sprite2D" parent="Cassette3/CassetteObject" index="0"]
+position = Vector2(-2.352951, 3.9215698)
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("16_dms03")
+
+[node name="CollisionShape2D" parent="Cassette3/CassetteObject" index="1"]
+z_index = 1406
+position = Vector2(-0.7842865, 2.3529472)
+scale = Vector2(0.5, 0.5)
+
+[editable path="CassetteManager"]
+[editable path="Cassette"]
+[editable path="Cassette2"]
+[editable path="Cassette3"]
