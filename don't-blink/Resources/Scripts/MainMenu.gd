@@ -1,7 +1,6 @@
 extends Control
 
 @onready var start_btn: Button   = %StartButton
-@onready var options_btn: Button = %OptionsButton
 @onready var quit_btn: Button    = %QuitButton
 #@onready var options_popup: AcceptDialog = %OptionsDialog
 
