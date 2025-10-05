@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://d3cjf6ed36sl7"]
+
+[ext_resource type="Texture2D" uid="uid://bat02xye6ct1g" path="res://Terrain/Animals/brid.png" id="1_odnbe"]
+
+[node name="BirdF" type="Sprite2D"]
+scale = Vector2(0.02, 0.02)
+texture = ExtResource("1_odnbe")

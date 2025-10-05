@@ -1,7 +1,8 @@
-[gd_scene load_steps=13 format=3 uid="uid://ro3abyjyyr10"]
+[gd_scene load_steps=15 format=3 uid="uid://ro3abyjyyr10"]
 
 [ext_resource type="Script" uid="uid://wnv2g1rtrloh" path="res://Resources/Scripts/cassette_manager.gd" id="1_g6rdw"]
 [ext_resource type="Texture2D" uid="uid://bdf0pox4cg7oa" path="res://Resources/Assets/CassetteVideos/CasetteOverlay/default.png" id="2_6yb57"]
+[ext_resource type="VideoStream" uid="uid://cg8hgv0ueapdb" path="res://Resources/Assets/CassetteVideos/video_fin.ogv" id="2_iqpw8"]
 [ext_resource type="Script" uid="uid://g426neex17sy" path="res://Resources/Scripts/CameraOverlayAnimator.gd" id="3_hmnk5"]
 [ext_resource type="Texture2D" uid="uid://bipno3i0kvmw1" path="res://Resources/Assets/CassetteVideos/CasetteOverlay/highlight play.png" id="4_exhdp"]
 [ext_resource type="Texture2D" uid="uid://bs3jfqwsmfed0" path="res://Resources/Assets/CassetteVideos/CasetteOverlay/pressed play.png" id="5_2ojqe"]
@@ -12,12 +13,14 @@
 [ext_resource type="Texture2D" uid="uid://beiajtlip7q3r" path="res://Resources/Assets/CassetteVideos/CasetteOverlay/highlight replay.png" id="10_kybad"]
 [ext_resource type="Texture2D" uid="uid://diuq4u71p61rh" path="res://Resources/Assets/CassetteVideos/CasetteOverlay/loop pressed.png" id="11_s3iur"]
 [ext_resource type="Texture2D" uid="uid://bxyr56qa1s3n1" path="res://Resources/Assets/CassetteVideos/CasetteOverlay/loop pressed different.png" id="12_33g8e"]
+[ext_resource type="Texture2D" uid="uid://o8i0cv0ioolb" path="res://Resources/Assets/white.png" id="13_2ojqe"]
 
 [node name="CassetteManager" type="Node2D"]
 
 [node name="CassetteManager" type="CanvasLayer" parent="."]
 layer = 60
 script = ExtResource("1_g6rdw")
+video_fin_stream = ExtResource("2_iqpw8")
 
 [node name="Root" type="Control" parent="CassetteManager"]
 unique_name_in_owner = true
@@ -25,6 +28,8 @@ layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="Dim" type="ColorRect" parent="CassetteManager/Root"]
 unique_name_in_owner = true
@@ -125,3 +130,12 @@ pause_pressed = ExtResource("9_3cdrx")
 loop_hover = ExtResource("10_kybad")
 loop_down = ExtResource("11_s3iur")
 loop_pressed = ExtResource("12_33g8e")
+
+[node name="Diode" type="TextureRect" parent="CassetteManager/Root/Overlay"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 1539.0
+offset_top = 869.0
+offset_right = 1656.0
+offset_bottom = 977.0
+texture = ExtResource("13_2ojqe")
