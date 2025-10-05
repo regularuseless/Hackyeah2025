@@ -1,4 +1,4 @@
-# custom_cursor.gd (Typo fixed, with enhanced debugging)
+# custom_cursor.gd
 extends CanvasLayer
 
 const CURSOR_DEFAULT = preload("res://Cursor/default.png")
@@ -10,10 +10,16 @@ const CURSOR_PRESSED_INTERACTION = preload("res://Cursor/pressed interaction.png
 
 var is_pressed: bool = false
 var is_over_interactable: bool = false
-var current_texture: Texture = CURSOR_DEFAULT # Track the current texture
+
+# --- NEW: A variable to hold a reference to the player node ---
+var player = null
 
 func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
+	# We wait one frame before getting the player. This is a robust way
+	# to make sure the main scene tree has loaded and the "player" group is available.
+	await get_tree().process_frame
+	player = get_tree().get_first_node_in_group("player")
 
 func _process(_delta):
 	sprite.global_position = get_viewport().get_mouse_position()
@@ -25,14 +31,17 @@ func _input(event: InputEvent):
 		is_pressed = event.is_pressed()
 
 func check_for_interactable():
-	var viewport = get_viewport()
-	
-	var world_mouse_position = viewport.get_canvas_transform().affine_inverse() * viewport.get_mouse_position()
-	
-	var world_space = viewport.get_world_2d().direct_space_state
+	# --- MODIFIED LOGIC ---
+	# If we haven't found the player for some reason, we can't do the check,
+	# so we should default to the non-interactable state.
+	if player == null:
+		is_over_interactable = false
+		return
 
+	var viewport = get_viewport()
+	var world_mouse_position = viewport.get_canvas_transform().affine_inverse() * viewport.get_mouse_position()
+	var world_space = viewport.get_world_2d().direct_space_state
 	var query = PhysicsPointQueryParameters2D.new()
-	# Use the correctly transformed world position for the query
 	query.position = world_mouse_position
 	query.collide_with_areas = true
 	query.collide_with_bodies = true
@@ -40,16 +49,20 @@ func check_for_interactable():
 	
 	var results = world_space.intersect_point(query)
 	
-	# The rest of the function remains the same
-	is_over_interactable = false
+	is_over_interactable = false # Reset the state each frame
 	
 	if not results.is_empty():
 		for result in results:
-			# The debug prints are still here if you need them
-			# print("  - Checking: ", result.collider.name, " | In 'interactable' group? -> ", result.collider.is_in_group("interactable"))
-			if result.collider.is_in_group("interactable"):
-				is_over_interactable = true
-				break
+			var hovered_object = result.collider
+			
+			# Check 1: Is the object under the mouse in the "interactable" group?
+			if hovered_object.is_in_group("interactable"):
+				
+				# Check 2: Is the player in range of THIS specific object?
+				if player.is_in_interaction_range(hovered_object):
+					# Only if both checks pass, we set the flag to true.
+					is_over_interactable = true
+					break # Found a valid target, no need to check others.
 
 func update_cursor_texture():
 	var new_texture = null
@@ -65,7 +78,5 @@ func update_cursor_texture():
 		else:
 			new_texture = CURSOR_DEFAULT
 			
-	# This logic only updates the texture and prints when a change is needed
 	if sprite.texture != new_texture:
 		sprite.texture = new_texture
-		print("[Cursor Debug] Texture changed to: ", new_texture.resource_path.get_file())
