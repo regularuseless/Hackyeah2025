@@ -157,6 +157,9 @@ centered = false
 
 [node name="CassetteManager" parent="." instance=ExtResource("10_bjq7f")]
 
+[node name="Root" parent="CassetteManager/CassetteManager" index="0"]
+mouse_filter = 2
+
 [node name="Cassette" parent="." instance=ExtResource("11_b7adt")]
 position = Vector2(1100.3922, 174.90198)
 

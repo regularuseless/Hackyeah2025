@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://baojplok525kj" path="res://Resources/Assets/White_Circle.png" id="2_fsh7v"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ol83a"]
-radius = 34.0147
+radius = 10.602117
 
 [node name="Cassette" type="Node2D"]
 
