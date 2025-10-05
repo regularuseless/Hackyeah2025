@@ -26,13 +26,12 @@ scale = Vector2(0.03, 0.03)
 script = ExtResource("1_wkdid")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.9999999, 0.9999999)
 sprite_frames = SubResource("SpriteFrames_wkdid")
 autoplay = "default"
 
-[node name="StaticBody2D" type="StaticBody2D" parent="."]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
-z_index = 10
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+z_index = -1
 position = Vector2(-33.333305, 116.66663)
-scale = Vector2(0.9999991, 0.9999991)
+scale = Vector2(0.9999989, 0.9999989)
 shape = SubResource("RectangleShape2D_dogqk")

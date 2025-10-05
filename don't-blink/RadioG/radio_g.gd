@@ -1,4 +1,3 @@
-# RadioG.gd  (attach to RadioG, root = Area2D, with a CollisionShape2D covering the sprite)
 extends Area2D
 
 @export var puzzle_scene: PackedScene = preload("res://Scenes/Radio_puzzle.tscn")
@@ -25,13 +24,13 @@ func _open_puzzle() -> void:
 
 	var parent := get_node_or_null(overlay_parent_path)
 	if parent == null:
-		# fallback: add to current scene if path wasn’t set correctly
+		
 		parent = get_tree().current_scene
 
 	_puzzle = puzzle_scene.instantiate()
 	parent.add_child(_puzzle)
 
-	# If puzzle is UI (Control) – make it fullscreen overlay
+	
 	if _puzzle is Control:
 		var c := _puzzle as Control
 		c.set_anchors_preset(Control.PRESET_FULL_RECT)
@@ -39,7 +38,7 @@ func _open_puzzle() -> void:
 		c.offset_top = 0
 		c.offset_right = 0
 		c.offset_bottom = 0
-	# If puzzle is world-space (Node2D) – optionally spawn at player
+	
 	elif _puzzle is Node2D and spawn_on_player:
 		var n := _puzzle as Node2D
 		var spawn_pos := global_position

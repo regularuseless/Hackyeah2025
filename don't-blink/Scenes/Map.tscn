@@ -84,6 +84,7 @@ layer_0/tile_data = PackedInt32Array(3014671, 0, 65536, 3014675, 0, 131072, 3014
 scale = Vector2(1.0000001, 1.0000001)
 
 [node name="RadioG" parent="Interactibles" instance=ExtResource("5_00287")]
+z_index = 1
 position = Vector2(437.6471, 674.50977)
 
 [node name="Ui" type="CanvasLayer" parent="."]
@@ -93,6 +94,57 @@ z_index = -100
 
 [node name="Sprite2D" type="Sprite2D" parent="Background"]
 position = Vector2(-1.5686276, -0.7843137)
+scale = Vector2(0.7859478, 0.7835876)
+texture = ExtResource("2_7yn8b")
+centered = false
+
+[node name="Background2" type="Node2D" parent="."]
+z_index = -100
+
+[node name="Sprite2D" type="Sprite2D" parent="Background2"]
+position = Vector2(0.7843139, 840.78436)
+scale = Vector2(0.7859478, 0.7835876)
+texture = ExtResource("2_7yn8b")
+centered = false
+
+[node name="Sprite2D2" type="Sprite2D" parent="Background2"]
+position = Vector2(-1509.0197, 2.3529663)
+scale = Vector2(0.7859478, 0.7835876)
+texture = ExtResource("2_7yn8b")
+centered = false
+
+[node name="Sprite2D3" type="Sprite2D" parent="Background2"]
+position = Vector2(1505.8823, 2.3529396)
+scale = Vector2(0.7859478, 0.7835876)
+texture = ExtResource("2_7yn8b")
+centered = false
+
+[node name="Sprite2D4" type="Sprite2D" parent="Background2"]
+position = Vector2(1508.2352, 840.78436)
+scale = Vector2(0.7859478, 0.7835876)
+texture = ExtResource("2_7yn8b")
+centered = false
+
+[node name="Sprite2D5" type="Sprite2D" parent="Background2"]
+position = Vector2(-1507.451, 845.49023)
+scale = Vector2(0.7859478, 0.7835876)
+texture = ExtResource("2_7yn8b")
+centered = false
+
+[node name="Sprite2D6" type="Sprite2D" parent="Background2"]
+position = Vector2(-1507.4509, -841.5686)
+scale = Vector2(0.7859478, 0.7835876)
+texture = ExtResource("2_7yn8b")
+centered = false
+
+[node name="Sprite2D7" type="Sprite2D" parent="Background2"]
+position = Vector2(-0.78430176, -841.56854)
+scale = Vector2(0.7859478, 0.7835876)
+texture = ExtResource("2_7yn8b")
+centered = false
+
+[node name="Sprite2D8" type="Sprite2D" parent="Background2"]
+position = Vector2(1507.4509, -841.56854)
 scale = Vector2(0.7859478, 0.7835876)
 texture = ExtResource("2_7yn8b")
 centered = false
