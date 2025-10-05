@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://b7rsfvlnjo374" path="res://Resources/Scripts/Flashlight.gd" id="2_8tf8o"]
 [ext_resource type="Script" uid="uid://bse5i213w1150" path="res://Resources/Scripts/PauseMenu.gd" id="3_cx1g7"]
 [ext_resource type="PackedScene" uid="uid://bhpmgurerojb4" path="res://Scenes/Cassette.tscn" id="4_jeb6u"]
-[ext_resource type="VideoStream" uid="uid://ohyw1krguhhj" path="res://Resources/Assets/CassetteVideos/video1.ogv" id="5_ectyy"]
+[ext_resource type="VideoStream" uid="uid://b47e6a5030prc" path="res://Resources/Assets/CassetteVideos/video_loop.ogv" id="6_dgagp"]
 [ext_resource type="PackedScene" uid="uid://ro3abyjyyr10" path="res://Scenes/CasetteManager.tscn" id="6_ectyy"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jeb6u"]
@@ -102,7 +102,7 @@ text = "Quit"
 position = Vector2(1318, 767)
 
 [node name="CassetteObject" parent="Cassette" index="0" node_paths=PackedStringArray("manager")]
-video = ExtResource("5_ectyy")
+video = ExtResource("6_dgagp")
 manager = NodePath("../../CassetteManager/CassetteManager")
 
 [editable path="CassetteManager"]
