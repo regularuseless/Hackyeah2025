@@ -1,0 +1,29 @@
+[gd_scene load_steps=3 format=3 uid="uid://bv55fo2qkmiua"]
+
+[ext_resource type="PackedScene" uid="uid://eqbb7p1uidh2" path="res://Scenes/TestMovement.tscn" id="1_s486e"]
+
+[sub_resource type="TileSet" id="TileSet_s486e"]
+
+[node name="Map" type="Node2D"]
+
+[node name="Player" parent="." instance=ExtResource("1_s486e")]
+position = Vector2(3225, 850)
+
+[node name="World" type="TileMap" parent="."]
+tile_set = SubResource("TileSet_s486e")
+format = 2
+
+[node name="Ground" type="TileMapLayer" parent="World"]
+tile_set = SubResource("TileSet_s486e")
+
+[node name="Walls" type="TileMapLayer" parent="World"]
+z_index = 5
+tile_set = SubResource("TileSet_s486e")
+
+[node name="Deco" type="TileMapLayer" parent="World"]
+z_index = 9
+tile_set = SubResource("TileSet_s486e")
+
+[node name="Interactibles" type="Node2D" parent="."]
+
+[node name="Ui" type="CanvasLayer" parent="."]
