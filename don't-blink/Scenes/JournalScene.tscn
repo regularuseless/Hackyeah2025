@@ -1,0 +1,48 @@
+[gd_scene load_steps=5 format=3 uid="uid://f3jehyi0yepm"]
+
+[ext_resource type="Script" uid="uid://dg7da74tqn0k2" path="res://Resources/Scripts/image_overlay.gd" id="1_xbpa0"]
+[ext_resource type="Script" uid="uid://dwirhee4vw4ce" path="res://Resources/Scripts/journal.gd" id="2_p42s6"]
+[ext_resource type="Texture2D" uid="uid://cirwwx8jkt04w" path="res://icon.svg" id="3_yevjm"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0j3tr"]
+
+[node name="JournalScene" type="Node2D"]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="ImageOverlay" type="Control" parent="CanvasLayer"]
+z_index = 10
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_stretch_ratio = 10.1
+script = ExtResource("1_xbpa0")
+metadata/_edit_use_anchors_ = true
+
+[node name="Picture" type="TextureRect" parent="CanvasLayer/ImageOverlay"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch_mode = 5
+metadata/_edit_use_anchors_ = true
+
+[node name="Journal" type="Area2D" parent="."]
+position = Vector2(771, 691)
+script = ExtResource("2_p42s6")
+picture_to_show = ExtResource("3_yevjm")
+overlay_path = NodePath("../CanvasLayer/ImageOverlay")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Journal"]
+position = Vector2(2, -1)
+scale = Vector2(6, 6)
+shape = SubResource("RectangleShape2D_0j3tr")
+
+[node name="Sprite2D" type="Sprite2D" parent="Journal"]
+position = Vector2(2, -1)
+texture = ExtResource("3_yevjm")
