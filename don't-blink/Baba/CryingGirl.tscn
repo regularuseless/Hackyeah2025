@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://3ct4t7fp3o7g"]
+[gd_scene load_steps=14 format=3 uid="uid://3ct4t7fp3o7g"]
 
 [ext_resource type="Script" uid="uid://dd7724ro7c411" path="res://Baba/crying_girl.gd" id="1_0l0cq"]
 [ext_resource type="Texture2D" uid="uid://dmfnc38ymp4sr" path="res://Baba/Baba Idle/Baba1.png" id="1_epu4t"]
@@ -48,6 +48,9 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7dy0s"]
 size = Vector2(176, 288)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hjh18"]
+size = Vector2(159.99998, 270.00006)
+
 [node name="CryingGirl" type="Area2D" groups=["interactable"]]
 z_index = 50
 scale = Vector2(0.1, 0.1)
@@ -70,3 +73,10 @@ autoplay = true
 
 [node name="JumpscareSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("10_hjh18")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(0, -44.999992)
+scale = Vector2(0.9999997, 0.9999997)
+shape = SubResource("RectangleShape2D_hjh18")

@@ -4,8 +4,7 @@ extends Area2D
 @onready var crying_sound = $CryingSound
 @onready var jumpscare_sound = $JumpscareSound
 
-# We rename this to be more clear. It now means "is the jumpscare currently playing?"
-var is_jumpscaring = false
+var already_jumpscared = false
 var player = null
 
 func _ready():
@@ -22,17 +21,14 @@ func _ready():
 	
 func _input_event(_viewport, event, _shape_idx):
 	# If a jumpscare is already in progress, or player isn't found, ignore clicks.
-	if is_jumpscaring or player == null:
+	if already_jumpscared or player == null:
 		return
 		
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.is_pressed():
 		# Ask the player if we (self) are in its interaction range.
 		if player.is_in_interaction_range(self):
 			# --- TRIGGER THE JUMPSCARE ---
-			
-			# Set the flag to true. This blocks more clicks until the animation is over.
-			is_jumpscaring = true
-			
+			already_jumpscared = true
 			crying_sound.stop()
 			animated_sprite.play("jumpscare") # This animation should NOT loop.
 			jumpscare_sound.play()
@@ -49,8 +45,6 @@ func _on_animation_finished():
 	# This prevents it from running every time the looping "crying" animation finishes a cycle.
 	if animated_sprite.animation == "jumpscare":
 		print("Jumpscare finished. Returning to crying state.")		
-		# 1. Re-enable interaction by setting the flag to false.
-		is_jumpscaring = false
 		
 		# 2. Play the default "crying" animation (which should be set to loop).
 		animated_sprite.play("crying")

@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://cfe042b2ttoua"]
+[gd_scene load_steps=7 format=3 uid="uid://co5d1lj5bv0vm"]
 
 [ext_resource type="Texture2D" uid="uid://ry7gftmlmojp" path="res://Resources/Assets/NOB.png" id="1_ly0w5"]
 [ext_resource type="AudioStream" uid="uid://brhs0ltyswjol" path="res://Resources/Assets/Sounds/radio_nie_ustawione.mp3" id="2_ly0w5"]
@@ -128,7 +128,7 @@ func _unhandled_input(event: InputEvent) -> void:
 [sub_resource type="CircleShape2D" id="CircleShape2D_prr26"]
 
 [node name="Radio" type="Node2D"]
-z_index = 9
+z_index = 1002
 position = Vector2(1014.0001, 541.00006)
 script = SubResource("GDScript_jes5u")
 label_path = NodePath("Label")

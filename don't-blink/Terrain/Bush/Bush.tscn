@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://cpg7mk2cw0m46"]
+[gd_scene load_steps=4 format=3 uid="uid://cpg7mk2cw0m46"]
 
 [ext_resource type="Texture2D" uid="uid://dh272tfuo32ru" path="res://Terrain/Bush/krzak0000.png" id="1_p1myu"]
 [ext_resource type="Texture2D" uid="uid://ce4dc0fslw8fe" path="res://Terrain/Bush/krzak0001.png" id="2_48h7o"]
@@ -17,15 +17,7 @@ animations = [{
 "speed": 2.0
 }]
 
-[sub_resource type="GDScript" id="GDScript_p1myu"]
-script/source = "extends Node2D
-@onready var anim: AnimatedSprite2D = $AnimatedSprite2D
-func _ready() -> void:
-	anim.play()  
-"
-
 [node name="Bush" type="AnimatedSprite2D"]
 scale = Vector2(0.15, 0.15)
 sprite_frames = SubResource("SpriteFrames_p1myu")
 autoplay = "default"
-script = SubResource("GDScript_p1myu")

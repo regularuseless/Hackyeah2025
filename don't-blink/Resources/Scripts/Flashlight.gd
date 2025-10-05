@@ -40,7 +40,7 @@ func _process(delta: float) -> void:
 		_jitter_timer = jitter_change_interval
 		_jitter_target = randf_range(-jitter_amp, jitter_amp)
 	# exponential smoothing factor; explicitly float math
-	var smooth_k: float = 1.0 - pow(0.001, delta)
+	var smooth_k: float = 2.5 - pow(0.001, delta)
 	_jitter_val = lerpf(_jitter_val, _jitter_target, smooth_k)
 
 	# 3) Pulse + jitter radius
