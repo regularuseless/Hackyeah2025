@@ -1,6 +1,17 @@
-[gd_scene load_steps=2 format=3 uid="uid://ro3abyjyyr10"]
+[gd_scene load_steps=13 format=3 uid="uid://ro3abyjyyr10"]
 
 [ext_resource type="Script" uid="uid://wnv2g1rtrloh" path="res://Resources/Scripts/cassette_manager.gd" id="1_g6rdw"]
+[ext_resource type="Texture2D" uid="uid://bdf0pox4cg7oa" path="res://Resources/Assets/CassetteVideos/CasetteOverlay/default.png" id="2_6yb57"]
+[ext_resource type="Script" uid="uid://g426neex17sy" path="res://Resources/Scripts/CameraOverlayAnimator.gd" id="3_hmnk5"]
+[ext_resource type="Texture2D" uid="uid://bipno3i0kvmw1" path="res://Resources/Assets/CassetteVideos/CasetteOverlay/highlight play.png" id="4_exhdp"]
+[ext_resource type="Texture2D" uid="uid://bs3jfqwsmfed0" path="res://Resources/Assets/CassetteVideos/CasetteOverlay/pressed play.png" id="5_2ojqe"]
+[ext_resource type="Texture2D" uid="uid://t8hhu8u24qxa" path="res://Resources/Assets/CassetteVideos/CasetteOverlay/pressed play different.png" id="6_iqpw8"]
+[ext_resource type="Texture2D" uid="uid://ci8gx6h8hreqh" path="res://Resources/Assets/CassetteVideos/CasetteOverlay/highlight pause.png" id="7_d35xy"]
+[ext_resource type="Texture2D" uid="uid://c1omeij1h8c26" path="res://Resources/Assets/CassetteVideos/CasetteOverlay/pressed pause_.png" id="8_jjnpa"]
+[ext_resource type="Texture2D" uid="uid://m0xywcb3aahk" path="res://Resources/Assets/CassetteVideos/CasetteOverlay/pressed pause - different_.png" id="9_3cdrx"]
+[ext_resource type="Texture2D" uid="uid://beiajtlip7q3r" path="res://Resources/Assets/CassetteVideos/CasetteOverlay/highlight replay.png" id="10_kybad"]
+[ext_resource type="Texture2D" uid="uid://diuq4u71p61rh" path="res://Resources/Assets/CassetteVideos/CasetteOverlay/loop pressed.png" id="11_s3iur"]
+[ext_resource type="Texture2D" uid="uid://bxyr56qa1s3n1" path="res://Resources/Assets/CassetteVideos/CasetteOverlay/loop pressed different.png" id="12_33g8e"]
 
 [node name="CassetteManager" type="Node2D"]
 
@@ -11,20 +22,26 @@ script = ExtResource("1_g6rdw")
 [node name="Root" type="Control" parent="CassetteManager"]
 unique_name_in_owner = true
 layout_mode = 3
-anchors_preset = 0
-offset_right = 1920.0
-offset_bottom = 1080.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 
 [node name="Dim" type="ColorRect" parent="CassetteManager/Root"]
-layout_mode = 0
-offset_right = 1920.0
-offset_bottom = 1080.0
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 color = Color(0, 0, 0, 0.18431373)
 
 [node name="MarginContainer" type="MarginContainer" parent="CassetteManager/Root"]
 layout_mode = 0
-offset_right = 1920.0
-offset_bottom = 1080.0
+offset_left = 35.0
+offset_top = 24.0
+offset_right = 1864.0
+offset_bottom = 1029.0
 theme_override_constants/margin_left = 24
 theme_override_constants/margin_top = 24
 theme_override_constants/margin_right = 24
@@ -34,31 +51,77 @@ theme_override_constants/margin_bottom = 24
 layout_mode = 2
 alignment = 1
 
-[node name="AspectRatioContainer" type="AspectRatioContainer" parent="CassetteManager/Root/MarginContainer/VBoxContainer"]
+[node name="VideoAR" type="AspectRatioContainer" parent="CassetteManager/Root/MarginContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 
-[node name="VideoPlayer" type="VideoStreamPlayer" parent="CassetteManager/Root/MarginContainer/VBoxContainer/AspectRatioContainer"]
+[node name="VideoPlayer" type="VideoStreamPlayer" parent="CassetteManager/Root/MarginContainer/VideoAR"]
 unique_name_in_owner = true
 layout_mode = 2
 expand = true
 
-[node name="HBoxContainer" type="HBoxContainer" parent="CassetteManager/Root/MarginContainer/VBoxContainer"]
-layout_mode = 2
-alignment = 1
+[node name="Overlay" type="Control" parent="CassetteManager/Root"]
+anchors_preset = 0
+offset_right = 1920.0
+offset_bottom = 1080.0
+mouse_filter = 2
 
-[node name="Title" type="Label" parent="CassetteManager/Root/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="PauseButton" type="Button" parent="CassetteManager/Root/Overlay"]
 unique_name_in_owner = true
-layout_mode = 2
-text = "Cassette
-"
+layout_mode = 0
+offset_left = 682.0
+offset_top = 905.0
+offset_right = 887.0
+offset_bottom = 976.0
+text = "Pause"
 
-[node name="CloseButton" type="Button" parent="CassetteManager/Root/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="LoopButton" type="Button" parent="CassetteManager/Root/Overlay"]
 unique_name_in_owner = true
-layout_mode = 2
+layout_mode = 0
+offset_left = 1284.0
+offset_top = 884.0
+offset_right = 1465.0
+offset_bottom = 970.0
+text = "Loop"
+
+[node name="PlayButton" type="Button" parent="CassetteManager/Root/Overlay"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 235.0
+offset_top = 908.0
+offset_right = 468.0
+offset_bottom = 994.0
+text = "Pause"
+
+[node name="CloseButton" type="Button" parent="CassetteManager/Root/Overlay"]
+unique_name_in_owner = true
+z_index = 3
+layout_mode = 0
+offset_left = 1764.0
+offset_top = 18.0
+offset_right = 1893.0
+offset_bottom = 92.0
 text = "Close
 "
 
-[node name="PlayPauseButton" type="Button" parent="CassetteManager/Root/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="CameraOverlay" type="TextureRect" parent="CassetteManager/Root/Overlay"]
 unique_name_in_owner = true
-layout_mode = 2
-text = "Pause"
+layout_mode = 0
+offset_left = 1.0000001
+offset_top = -2.999999
+offset_right = 1921.0
+offset_bottom = 1277.0
+scale = Vector2(1.009375, 0.83515626)
+mouse_filter = 2
+texture = ExtResource("2_6yb57")
+script = ExtResource("3_hmnk5")
+normal_tex = ExtResource("2_6yb57")
+play_hover = ExtResource("4_exhdp")
+play_down = ExtResource("5_2ojqe")
+play_pressed = ExtResource("6_iqpw8")
+pause_hover = ExtResource("7_d35xy")
+pause_down = ExtResource("8_jjnpa")
+pause_pressed = ExtResource("9_3cdrx")
+loop_hover = ExtResource("10_kybad")
+loop_down = ExtResource("11_s3iur")
+loop_pressed = ExtResource("12_33g8e")
