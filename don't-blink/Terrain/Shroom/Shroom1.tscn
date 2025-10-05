@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://dag616nk8jc5m"]
+
+[ext_resource type="Texture2D" uid="uid://biwf0670yrcyy" path="res://Terrain/Shroom/Grzyb1.png" id="1_1e1av"]
+
+[node name="Shroom1" type="Sprite2D"]
+texture = ExtResource("1_1e1av")

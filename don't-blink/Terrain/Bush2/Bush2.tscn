@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://boxkuhhy2jmj"]
+
+[ext_resource type="Texture2D" uid="uid://bm871bdui8i80" path="res://Terrain/Bush2/Krzak2-1.png" id="1_d8q4d"]
+[ext_resource type="Texture2D" uid="uid://c651iu3svkwpq" path="res://Terrain/Bush2/Krzak2-2.png" id="2_5d63p"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_e3fd4"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_d8q4d")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_5d63p")
+}],
+"loop": true,
+"name": &"default",
+"speed": 2.0
+}]
+
+[node name="Bush2" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_e3fd4")
+autoplay = "default"
