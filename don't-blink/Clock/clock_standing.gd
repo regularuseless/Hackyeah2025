@@ -1,5 +1,5 @@
 # Clock.gd
-extends Control
+extends Area2D
 
 # Set the target time for the puzzle.
 # This is in 24-hour format. For example, 3:30 PM is 15:30.

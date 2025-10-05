@@ -33,10 +33,10 @@ animations = [{
 "texture": ExtResource("6_v0k0e")
 }, {
 "duration": 1.0,
-"texture": ExtResource("7_5wa8t")
+"texture": ExtResource("8_p7tob")
 }, {
 "duration": 1.0,
-"texture": ExtResource("8_p7tob")
+"texture": ExtResource("7_5wa8t")
 }],
 "loop": true,
 "name": &"walk",
@@ -58,13 +58,15 @@ walk_speed = 180.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_3mea3")
-frame_progress = 0.2810407
+animation = &"walk"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 56)
 shape = SubResource("CapsuleShape2D_itu5c")
 
 [node name="InteractionArea" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="InteractionArea"]
 shape = SubResource("CircleShape2D_s1rgi")
