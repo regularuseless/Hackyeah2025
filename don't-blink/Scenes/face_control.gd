@@ -68,6 +68,7 @@ func _spawn_one_face() -> void:
 	face.add_to_group("face_overlay_face")
 	face.texture = tex
 	face.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT
+	face.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	face.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	face.focus_mode = Control.FOCUS_NONE
 	face.modulate = Color(1.0, 1.0, 1.0, 0.0)

@@ -1,16 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://cpg7mk2cw0m46"]
+[gd_scene load_steps=5 format=3 uid="uid://cpg7mk2cw0m46"]
 
 [ext_resource type="Texture2D" uid="uid://dh272tfuo32ru" path="res://Terrain/Bush/krzak0000.png" id="1_p1myu"]
 [ext_resource type="Texture2D" uid="uid://ce4dc0fslw8fe" path="res://Terrain/Bush/krzak0001.png" id="2_48h7o"]
 
-[sub_resource type="GDScript" id="GDScript_p1myu"]
-script/source = "extends Node2D
-@onready var anim: AnimatedSprite2D = $AnimatedSprite2D
-func _ready() -> void:
-	anim.play()  
-"
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_ygeq7"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_p1myu"]
 animations = [{
 "frames": [{
 "duration": 1.0,
@@ -24,20 +17,15 @@ animations = [{
 "speed": 2.0
 }]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_p1myu"]
-size = Vector2(135.00002, 70)
+[sub_resource type="GDScript" id="GDScript_p1myu"]
+script/source = "extends Node2D
+@onready var anim: AnimatedSprite2D = $AnimatedSprite2D
+func _ready() -> void:
+	anim.play()  
+"
 
-[node name="Bush" type="StaticBody2D"]
+[node name="Bush" type="AnimatedSprite2D"]
 scale = Vector2(0.15, 0.15)
-script = SubResource("GDScript_p1myu")
-
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-position = Vector2(8, 0)
-sprite_frames = SubResource("SpriteFrames_ygeq7")
+sprite_frames = SubResource("SpriteFrames_p1myu")
 autoplay = "default"
-frame_progress = 0.6876671
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(7.4999905, 34.99999)
-scale = Vector2(0.9999997, 0.9999997)
-shape = SubResource("RectangleShape2D_p1myu")
+script = SubResource("GDScript_p1myu")

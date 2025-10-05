@@ -1,0 +1,35 @@
+[gd_scene load_steps=5 format=3 uid="uid://bav0dwc4t8ki6"]
+
+[ext_resource type="Texture2D" uid="uid://hxl70a5h4wi2" path="res://Piano/graphics/Fortepian1.png" id="1_p5su0"]
+[ext_resource type="Texture2D" uid="uid://du4cei0pyd0a0" path="res://Piano/graphics/Fortepian2.png" id="2_q8iqn"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_p5su0"]
+size = Vector2(400, 384)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_a5sm8"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_p5su0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_q8iqn")
+}],
+"loop": false,
+"name": &"default",
+"speed": 2.0
+}]
+
+[node name="PianoGround" type="StaticBody2D"]
+collision_layer = 2
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-56, 96)
+shape = SubResource("RectangleShape2D_p5su0")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_a5sm8")
+autoplay = "default"
+frame = 1
+frame_progress = 1.0

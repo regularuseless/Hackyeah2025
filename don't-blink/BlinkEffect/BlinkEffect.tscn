@@ -6,7 +6,7 @@
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_1k008"]
 shader = ExtResource("1_jf3lr")
 shader_parameter/blink_progress = 0.0
-shader_parameter/open_margin = 1.3000000142500001
+shader_parameter/open_margin = 1.30000001425
 shader_parameter/curvature = 0.30000001425
 shader_parameter/blur_size = 0.05
 
