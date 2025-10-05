@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://c2twdjxt2xh01"]
+[gd_scene load_steps=6 format=3 uid="uid://c2twdjxt2xh01"]
 
 [ext_resource type="Texture2D" uid="uid://bnfx1jo7epurg" path="res://Resources/Assets/RadioZiemia1.png" id="1_dogqk"]
+[ext_resource type="Script" uid="uid://devgh5s5w37fi" path="res://RadioG/radio_g.gd" id="1_wkdid"]
 [ext_resource type="Texture2D" uid="uid://bcov7rtf44y0p" path="res://Resources/Assets/RadioZiemia2.png" id="2_wkdid"]
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_2g0cm"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_wkdid"]
 animations = [{
 "frames": [{
 "duration": 1.0,
@@ -17,16 +18,21 @@ animations = [{
 "speed": 2.0
 }]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_cst67"]
-size = Vector2(700, 210)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_dogqk"]
+size = Vector2(733.3338, 300.00018)
 
-[node name="RadioG" type="StaticBody2D"]
-scale = Vector2(0.02, 0.02)
+[node name="RadioG" type="Area2D"]
+scale = Vector2(0.03, 0.03)
+script = ExtResource("1_wkdid")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-sprite_frames = SubResource("SpriteFrames_2g0cm")
-frame_progress = 0.9638406
+sprite_frames = SubResource("SpriteFrames_wkdid")
+autoplay = "default"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-50, 95)
-shape = SubResource("RectangleShape2D_cst67")
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+z_index = 10
+position = Vector2(-33.333305, 116.66663)
+scale = Vector2(0.9999991, 0.9999991)
+shape = SubResource("RectangleShape2D_dogqk")
