@@ -28,15 +28,18 @@ func _confirm() -> void:
 		_typed_name = "Player"
 
 	# 2) Try to read OS account name
+
 	_os_name = _guess_os_username()
 
 	# 3) If we have an OS name → prompt; otherwise start immediately with typed
 	if _os_name.is_empty():
 		Game.start_new_game(_typed_name)
 		return
-
-	os_label.text = "Isn't your name:  %s ?" % _os_name
-	os_prompt.popup_centered()
+	if _os_name != _typed_name:
+		os_label.text = "Isn't your name:  %s ?" % _os_name
+		os_prompt.popup_centered()
+	else:
+		Game.start_new_game(_os_name)
 
 func _on_os_yes() -> void:
 	# Start game using the OS account name
