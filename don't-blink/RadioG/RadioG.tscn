@@ -21,9 +21,10 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dogqk"]
 size = Vector2(733.3338, 300.00018)
 
-[node name="RadioG" type="Area2D"]
-z_index = -1
+[node name="RadioG" type="Area2D" groups=["interactable"]]
 scale = Vector2(0.03, 0.03)
+collision_layer = 2
+collision_mask = 0
 script = ExtResource("1_wkdid")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
