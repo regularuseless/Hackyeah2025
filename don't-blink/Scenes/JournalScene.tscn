@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://f3jehyi0yepm"]
+[gd_scene load_steps=5 format=3 uid="uid://3koh54thbd2x"]
 
 [ext_resource type="Script" uid="uid://dg7da74tqn0k2" path="res://Resources/Scripts/image_overlay.gd" id="1_xbpa0"]
 [ext_resource type="Script" uid="uid://dwirhee4vw4ce" path="res://Resources/Scripts/journal.gd" id="2_p42s6"]
@@ -18,7 +18,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-size_flags_stretch_ratio = 10.1
 script = ExtResource("1_xbpa0")
 metadata/_edit_use_anchors_ = true
 
