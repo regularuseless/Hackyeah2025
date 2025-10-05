@@ -1,0 +1,58 @@
+[gd_scene load_steps=11 format=3 uid="uid://3ct4t7fp3o7g"]
+
+[ext_resource type="Script" uid="uid://dd7724ro7c411" path="res://Baba/crying_girl.gd" id="1_0l0cq"]
+[ext_resource type="Texture2D" uid="uid://dmfnc38ymp4sr" path="res://Baba/Baba Idle/Baba1.png" id="1_epu4t"]
+[ext_resource type="Texture2D" uid="uid://dwm4nn6rb2hep" path="res://Baba/Baba Idle/Baba2.png" id="2_auwn4"]
+[ext_resource type="Texture2D" uid="uid://cejwwultn5thr" path="res://Baba/Baba Idle/Baba3.png" id="3_hkb2w"]
+[ext_resource type="Texture2D" uid="uid://cvs203gjf03mv" path="res://Baba/Baba Idle/Baba4.png" id="4_7dy0s"]
+[ext_resource type="Texture2D" uid="uid://d4cuw1nhv1s30" path="res://Baba/Baba Jumpsacre/BabaJ1.png" id="5_7dy0s"]
+[ext_resource type="Texture2D" uid="uid://bhdjncy32cgug" path="res://Baba/Baba Jumpsacre/BabaJ2.png" id="6_0l0cq"]
+[ext_resource type="Texture2D" uid="uid://cg2icwm5msgf" path="res://Baba/Baba Jumpsacre/BabaJ3.png" id="7_a5qmf"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_0l0cq"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_epu4t")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_auwn4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_hkb2w")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_7dy0s")
+}],
+"loop": true,
+"name": &"crying",
+"speed": 4.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_7dy0s")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_0l0cq")
+}, {
+"duration": 4.0,
+"texture": ExtResource("7_a5qmf")
+}],
+"loop": false,
+"name": &"jumpscare",
+"speed": 4.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7dy0s"]
+size = Vector2(176, 288)
+
+[node name="CryingGirl" type="Area2D" groups=["interactable"]]
+script = ExtResource("1_0l0cq")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_0l0cq")
+animation = &"jumpscare"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -48)
+shape = SubResource("RectangleShape2D_7dy0s")

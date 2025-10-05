@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://lgaftspexp3k"]
+[gd_scene load_steps=12 format=3 uid="uid://lgaftspexp3k"]
 
 [ext_resource type="Script" path="res://Player/player_movement.gd" id="1_q3lat"]
 [ext_resource type="Texture2D" uid="uid://dqumgun5mr44p" path="res://Player/graphics/postac_static.png" id="2_s1rgi"]
@@ -47,7 +47,10 @@ animations = [{
 radius = 32.0
 height = 240.0
 
-[node name="Player" type="CharacterBody2D"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_s1rgi"]
+radius = 472.06778
+
+[node name="Player" type="CharacterBody2D" groups=["player"]]
 script = ExtResource("1_q3lat")
 walk_speed = 180.0
 
@@ -60,3 +63,11 @@ frame_progress = 0.2810407
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 56)
 shape = SubResource("CapsuleShape2D_itu5c")
+
+[node name="InteractionArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractionArea"]
+shape = SubResource("CircleShape2D_s1rgi")
+
+[connection signal="area_entered" from="InteractionArea" to="." method="_on_interaction_area_area_entered"]
+[connection signal="area_exited" from="InteractionArea" to="." method="_on_interaction_area_area_exited"]

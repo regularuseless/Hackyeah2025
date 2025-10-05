@@ -1,69 +1,73 @@
-[gd_scene load_steps=5 format=3 uid="uid://dcrrpeia302gj"]
+[gd_scene load_steps=6 format=3 uid="uid://dcrrpeia302gj"]
 
 [ext_resource type="Script" uid="uid://m1co5irqu48p" path="res://World/World.gd" id="1_mlekv"]
 [ext_resource type="PackedScene" uid="uid://lgaftspexp3k" path="res://Player/Player.tscn" id="1_y6flb"]
 [ext_resource type="PackedScene" uid="uid://iynf6i7tvysx" path="res://SettingsManager/SettingsManager.tscn" id="2_il6x7"]
 [ext_resource type="Texture2D" uid="uid://cirwwx8jkt04w" path="res://icon.svg" id="2_mlekv"]
+[ext_resource type="PackedScene" uid="uid://3ct4t7fp3o7g" path="res://Baba/CryingGirl.tscn" id="2_o14yy"]
 
 [node name="World" type="Node2D"]
 script = ExtResource("1_mlekv")
-world_boundary = Rect2(-256, -256, 512, 512)
+world_boundary = Rect2(-1024, -1024, 2048, 2048)
+
+[node name="CryingGirl" parent="." instance=ExtResource("2_o14yy")]
+position = Vector2(864, -456)
 
 [node name="SettingsManager" parent="." instance=ExtResource("2_il6x7")]
 
 [node name="Map_Center" type="Sprite2D" parent="."]
 modulate = Color(0, 0, 0, 0.56078434)
-scale = Vector2(4, 4.0000005)
+scale = Vector2(24, 24)
 texture = ExtResource("2_mlekv")
 
 [node name="MapClones" type="Node2D" parent="."]
 
 [node name="Map_N" type="Sprite2D" parent="MapClones"]
 modulate = Color(0, 0, 0, 0.56078434)
-position = Vector2(0, -512)
-scale = Vector2(4, 4.0000005)
+position = Vector2(0, -3072)
+scale = Vector2(24, 24)
 texture = ExtResource("2_mlekv")
 
 [node name="Map_S" type="Sprite2D" parent="MapClones"]
 modulate = Color(0, 0, 0, 0.56078434)
-position = Vector2(0, 512)
-scale = Vector2(4, 4.0000005)
+position = Vector2(0, 3072)
+scale = Vector2(24, 24)
 texture = ExtResource("2_mlekv")
 
 [node name="Map_W" type="Sprite2D" parent="MapClones"]
 modulate = Color(0, 0, 0, 0.56078434)
-position = Vector2(-512, 0)
-scale = Vector2(4, 4.0000005)
+position = Vector2(-3064, 0)
+scale = Vector2(24, 24)
 texture = ExtResource("2_mlekv")
 
 [node name="Map_E" type="Sprite2D" parent="MapClones"]
 modulate = Color(0, 0, 0, 0.56078434)
-position = Vector2(512, 0)
-scale = Vector2(4, 4.0000005)
+position = Vector2(3072.0002, 0)
+scale = Vector2(24, 24)
 texture = ExtResource("2_mlekv")
 
 [node name="Map_SW" type="Sprite2D" parent="MapClones"]
 modulate = Color(0, 0, 0, 0.56078434)
-position = Vector2(-512, 512)
-scale = Vector2(4, 4.0000005)
+position = Vector2(-3072, 3072)
+scale = Vector2(24, 24)
 texture = ExtResource("2_mlekv")
 
 [node name="Map_SE" type="Sprite2D" parent="MapClones"]
 modulate = Color(0, 0, 0, 0.56078434)
-position = Vector2(512, 512)
-scale = Vector2(4, 4.0000005)
+position = Vector2(3072, 3072)
+scale = Vector2(24, 24)
 texture = ExtResource("2_mlekv")
 
 [node name="Map_NW" type="Sprite2D" parent="MapClones"]
 modulate = Color(0, 0, 0, 0.56078434)
-position = Vector2(-512, -512)
-scale = Vector2(4, 4.0000005)
+position = Vector2(-3072.0002, -3072)
+scale = Vector2(24, 24)
 texture = ExtResource("2_mlekv")
 
 [node name="Map_NE" type="Sprite2D" parent="MapClones"]
 modulate = Color(0, 0, 0, 0.56078434)
-position = Vector2(512, -512)
-scale = Vector2(4, 4.0000005)
+position = Vector2(3072, -3072)
+scale = Vector2(24, 24)
 texture = ExtResource("2_mlekv")
 
 [node name="Player" parent="." instance=ExtResource("1_y6flb")]
