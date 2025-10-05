@@ -47,6 +47,7 @@ animations = [{
 size = Vector2(176, 288)
 
 [node name="CryingGirl" type="Area2D" groups=["interactable"]]
+scale = Vector2(0.1, 0.1)
 script = ExtResource("1_0l0cq")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
