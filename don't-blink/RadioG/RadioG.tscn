@@ -22,10 +22,12 @@ animations = [{
 size = Vector2(733.3338, 300.00018)
 
 [node name="RadioG" type="Area2D"]
+z_index = -1
 scale = Vector2(0.03, 0.03)
 script = ExtResource("1_wkdid")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+z_index = -1
 scale = Vector2(0.9999999, 0.9999999)
 sprite_frames = SubResource("SpriteFrames_wkdid")
 autoplay = "default"
