@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://be8glf8e8gcfh"]
+[gd_scene load_steps=13 format=3 uid="uid://be8glf8e8gcfh"]
 
 [ext_resource type="Shader" uid="uid://cdvqjjd1ekyhc" path="res://Resources/Shaders/DarknessShader.gdshader" id="1_c8510"]
 [ext_resource type="Script" uid="uid://b7rsfvlnjo374" path="res://Resources/Scripts/Flashlight.gd" id="2_8tf8o"]
@@ -6,6 +6,11 @@
 [ext_resource type="PackedScene" uid="uid://bhpmgurerojb4" path="res://Scenes/Cassette.tscn" id="4_jeb6u"]
 [ext_resource type="VideoStream" uid="uid://ohyw1krguhhj" path="res://Resources/Assets/CassetteVideos/video1.ogv" id="5_ectyy"]
 [ext_resource type="PackedScene" uid="uid://ro3abyjyyr10" path="res://Scenes/CasetteManager.tscn" id="6_ectyy"]
+[ext_resource type="PackedScene" uid="uid://13e8adqn8dbd" path="res://Scenes/EventManager.tscn" id="7_tvrdd"]
+[ext_resource type="Texture2D" uid="uid://dexsewuf8cu2r" path="res://Resources/Assets/Jumpscares/face1.png" id="8_5y1y4"]
+[ext_resource type="Texture2D" uid="uid://djjcqhccvxjop" path="res://Resources/Assets/Jumpscares/faces2.png" id="9_nc4w1"]
+[ext_resource type="Texture2D" uid="uid://bqi3ajei3snrb" path="res://Resources/Assets/Jumpscares/faces03.png" id="10_i3opm"]
+[ext_resource type="Texture2D" uid="uid://b2vv4keg6na85" path="res://Resources/Assets/Jumpscares/faces4.png" id="11_5jn8n"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jeb6u"]
 shader = ExtResource("1_c8510")
@@ -15,6 +20,14 @@ shader_parameter/feather = 8.0
 shader_parameter/darkness = 1.0
 
 [node name="Test-FieldOfView" type="Node2D"]
+
+[node name="FacesLayer" type="Control" parent="."]
+z_index = 2162
+z_as_relative = false
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1920.0
+offset_bottom = 1080.0
 
 [node name="CassetteManager" parent="." instance=ExtResource("6_ectyy")]
 unique_name_in_owner = true
@@ -46,21 +59,6 @@ grow_vertical = 2
 mouse_filter = 2
 color = Color(0, 0, 0, 1)
 script = ExtResource("2_8tf8o")
-
-[node name="Faces" type="CanvasLayer" parent="Camera2D"]
-layer = 496
-follow_viewport_scale = 0.001
-
-[node name="Control" type="Control" parent="Camera2D/Faces"]
-layout_mode = 3
-anchors_preset = 0
-offset_right = 1920.0
-offset_bottom = 1079.0
-mouse_filter = 2
-
-[node name="Face" type="Sprite2D" parent="Camera2D/Faces/Control"]
-visible = false
-scale = Vector2(0.1, 0.1)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -104,6 +102,14 @@ position = Vector2(1318, 767)
 [node name="CassetteObject" parent="Cassette" index="0" node_paths=PackedStringArray("manager")]
 video = ExtResource("5_ectyy")
 manager = NodePath("../../CassetteManager/CassetteManager")
+
+[node name="EventManager" parent="." instance=ExtResource("7_tvrdd")]
+min_interval_s = 1.0
+interval_jitter_s = 1.0
+listener = NodePath("../FacesLayer")
+animation_targets = Array[NodePath]([NodePath("../FacesLayer")])
+faces_layer = NodePath("../Camera2D/CameraCanvas")
+face_textures = Array[Texture2D]([ExtResource("8_5y1y4"), ExtResource("9_nc4w1"), ExtResource("10_i3opm"), ExtResource("11_5jn8n")])
 
 [editable path="CassetteManager"]
 [editable path="Cassette"]
