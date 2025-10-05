@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://bxl6dw6v1oif0"]
+
+[ext_resource type="PackedScene" uid="uid://wvvv46uufmqc" path="res://Piano/Piano.tscn" id="1_ulcgi"]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="Piano" parent="." instance=ExtResource("1_ulcgi")]
+position = Vector2(448, 304)
+scale = Vector2(1.674926, 1.674926)
