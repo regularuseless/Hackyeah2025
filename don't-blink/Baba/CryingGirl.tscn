@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://3ct4t7fp3o7g"]
+[gd_scene load_steps=13 format=3 uid="uid://3ct4t7fp3o7g"]
 
 [ext_resource type="Script" uid="uid://dd7724ro7c411" path="res://Baba/crying_girl.gd" id="1_0l0cq"]
 [ext_resource type="Texture2D" uid="uid://dmfnc38ymp4sr" path="res://Baba/Baba Idle/Baba1.png" id="1_epu4t"]
@@ -8,6 +8,8 @@
 [ext_resource type="Texture2D" uid="uid://d4cuw1nhv1s30" path="res://Baba/Baba Jumpsacre/BabaJ1.png" id="5_7dy0s"]
 [ext_resource type="Texture2D" uid="uid://bhdjncy32cgug" path="res://Baba/Baba Jumpsacre/BabaJ2.png" id="6_0l0cq"]
 [ext_resource type="Texture2D" uid="uid://cg2icwm5msgf" path="res://Baba/Baba Jumpsacre/BabaJ3.png" id="7_a5qmf"]
+[ext_resource type="AudioStream" uid="uid://c4ngefops406l" path="res://Baba/płacz.mp3" id="9_a5qmf"]
+[ext_resource type="AudioStream" uid="uid://du0jdxq2v02eh" path="res://Baba/jumpscare.mp3" id="10_hjh18"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_0l0cq"]
 animations = [{
@@ -47,13 +49,24 @@ animations = [{
 size = Vector2(176, 288)
 
 [node name="CryingGirl" type="Area2D" groups=["interactable"]]
+z_index = 50
 scale = Vector2(0.1, 0.1)
+collision_layer = 2
+collision_mask = 0
 script = ExtResource("1_0l0cq")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_0l0cq")
 animation = &"jumpscare"
+autoplay = "crying"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -48)
 shape = SubResource("RectangleShape2D_7dy0s")
+
+[node name="CryingSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("9_a5qmf")
+autoplay = true
+
+[node name="JumpscareSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("10_hjh18")

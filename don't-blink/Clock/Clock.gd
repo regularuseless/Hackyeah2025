@@ -3,8 +3,8 @@ extends Control
 
 # Set the target time for the puzzle.
 # This is in 24-hour format. For example, 3:30 PM is 15:30.
-const TARGET_HOUR = 15
-const TARGET_MINUTE = 00
+const TARGET_HOUR = 00
+const TARGET_MINUTE = 05
 
 # A flag to make sure our success message only prints once.
 var _puzzle_solved = false
@@ -18,7 +18,7 @@ func _process(_delta):
 	
 	# We use "%02d" to format the numbers. This ensures a leading zero
 	# is added if the number is less than 10 (e.g., 9 becomes "09").
-	var time_string = "%02d:%02d:%02d" % [now.hour, now.minute, now.second]
+	var time_string = "%02d:%02d" % [now.hour, now.minute]
 	
 	# Set the label's text to our newly formatted string.
 	time_label.text = time_string

@@ -1,26 +1,59 @@
 extends Area2D
 
 @onready var animated_sprite = $AnimatedSprite2D
+@onready var crying_sound = $CryingSound
+@onready var jumpscare_sound = $JumpscareSound
 
-var _jumpscare_triggered = false
+# We rename this to be more clear. It now means "is the jumpscare currently playing?"
+var is_jumpscaring = false
 var player = null
 
 func _ready():
+	# Find the player node once when the scene loads.
 	player = get_tree().get_first_node_in_group("player")
-
+	
+	# --- NEW: Connect the animation_finished signal ---
+	# This tells the animated_sprite to call our new function _on_animation_finished()
+	# every time any of its animations completes a cycle.
+	animated_sprite.animation_finished.connect(_on_animation_finished)
+	
+	# Start in the default crying state.
+	animated_sprite.play("crying")
+	
 func _input_event(_viewport, event, _shape_idx):
-	# Do nothing if the jumpscare already happened or if the player isn't found.
-	if _jumpscare_triggered or player == null:
+	# If a jumpscare is already in progress, or player isn't found, ignore clicks.
+	if is_jumpscaring or player == null:
 		return
 		
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.is_pressed():
 		# Ask the player if we (self) are in its interaction range.
 		if player.is_in_interaction_range(self):
-			# If yes, trigger the jumpscare and handle the input.
-			_jumpscare_triggered = true
-			animated_sprite.play("jumpscare")
+			# --- TRIGGER THE JUMPSCARE ---
+			
+			# Set the flag to true. This blocks more clicks until the animation is over.
+			is_jumpscaring = true
+			
+			crying_sound.stop()
+			animated_sprite.play("jumpscare") # This animation should NOT loop.
+			jumpscare_sound.play()
+			
 			get_viewport().set_input_as_handled()
 			print("Jumpscare triggered!")
 		else:
-			# If no, do nothing. The click will "fall through" and the player will walk.
 			print("You are too far away.")
+
+
+# --- NEW: This function is called automatically when an animation finishes ---
+func _on_animation_finished():
+	# We only want to run this code when the "jumpscare" animation is the one that finished.
+	# This prevents it from running every time the looping "crying" animation finishes a cycle.
+	if animated_sprite.animation == "jumpscare":
+		print("Jumpscare finished. Returning to crying state.")		
+		# 1. Re-enable interaction by setting the flag to false.
+		is_jumpscaring = false
+		
+		# 2. Play the default "crying" animation (which should be set to loop).
+		animated_sprite.play("crying")
+		
+		# 3. Start the looping crying sound again.
+		crying_sound.play()

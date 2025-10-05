@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://cxaf6rsaa7f1o"]
+
+[ext_resource type="Script" uid="uid://cyotww0gfnqmv" path="res://Cursor/custom_cursor.gd" id="1_ootlb"]
+
+[node name="CustomCursor" type="CanvasLayer"]
+script = ExtResource("1_ootlb")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.5, 0.5)
